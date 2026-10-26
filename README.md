@@ -44,5 +44,15 @@ timer expiry handling and task execution happen in the main loop.
 - If the pending hardware-tick counter reaches its maximum, it saturates and
   `ccn_tick_overflowed()` reports the condition.
 
-The historical source files in the project root are not part of this
-PlatformIO build. The active implementation is under `src/` and `include/`.
+## Project layout
+
+- `src/` contains the application entry point (`main.c`).
+- `coconut/` contains the CCN kernel sources and their module headers. The
+  PlatformIO build compiles `ccn.c` and `timer_avr.c`; the historical module
+  sources are retained here but are not part of the current build.
+- `include/` contains the public CCN header and all interface headers ending
+  in `_if.h`.
+
+The PlatformIO source directory is set to the project root so that sources
+from both `src/` and `coconut/` can be selected. `build_src_filter` explicitly
+limits the build to the application and active kernel sources.
