@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="760" viewBox="0 0 1120 760" role="img" aria-labelledby="title desc">
+  <title id="title">UML-Sequenzdiagramm: EVTI Event senden und empfangen</title>
+  <desc id="desc">Ein Aufrufer sendet ein Event an EVTI. EVTI setzt das Pending-Flag und weckt über BPCI den Empfänger-Task. Der Task empfängt und konsumiert das Event.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#29495a"/>
+    </marker>
+    <marker id="return-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#526b78"/>
+    </marker>
+    <style>
+      text { font-family: Arial, sans-serif; fill: #172a35; }
+      .title { font-size: 23px; font-weight: 700; }
+      .participant { fill: #eaf3f7; stroke: #31566b; stroke-width: 2; }
+      .participant-text { font-size: 17px; text-anchor: middle; }
+      .life { stroke: #80939c; stroke-width: 2; stroke-dasharray: 8 7; }
+      .message { stroke: #29495a; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .return { stroke: #526b78; stroke-width: 2.5; stroke-dasharray: 7 5; fill: none; marker-end: url(#return-arrow); }
+      .label { font-size: 15px; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1120" height="760" fill="#ffffff"/>
+  <text class="title" x="560" y="34" text-anchor="middle">EVTI – Event senden und empfangen</text>
+
+  <rect class="participant" x="45" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="320" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="595" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="870" y="55" width="200" height="58" rx="10"/>
+  <text class="participant-text" x="145" y="80"><tspan x="145">Aufrufer /</tspan><tspan x="145" dy="20">Eingabetask</tspan></text>
+  <text class="participant-text" x="420" y="91">EVTI</text>
+  <text class="participant-text" x="695" y="80"><tspan x="695">BPCI /</tspan><tspan x="695" dy="20">Scheduler</tspan></text>
+  <text class="participant-text" x="970" y="91">Empfänger-Task</text>
+
+  <path class="life" d="M145 113 V720 M420 113 V720 M695 113 V720 M970 113 V720"/>
+
+  <text class="label" x="282" y="151">EVTI_Send(e)</text>
+  <path class="message" d="M145 162 H420"/>
+
+  <text class="label" x="520" y="246" text-anchor="start">Pending-Flag = TRUE</text>
+  <path class="message" d="M420 257 H470 V278 H420"/>
+
+  <text class="label" x="557" y="350">BPCI_WakeUpTask(task)</text>
+  <path class="message" d="M420 361 H695"/>
+
+  <text class="label" x="832" y="454">Scheduler führt den Task aus</text>
+  <path class="message" d="M695 465 H970"/>
+
+  <text class="label" x="695" y="558">EVTI_Receive(e)</text>
+  <path class="message" d="M970 569 H420"/>
+
+  <text class="label" x="695" y="662">TRUE; Pending-Flag löschen</text>
+  <path class="return" d="M420 673 H970"/>
+</svg>

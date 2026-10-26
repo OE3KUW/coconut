@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="1020" viewBox="0 0 1380 1020" role="img" aria-labelledby="title desc">
+  <title id="title">UML-Sequenzdiagramm: periodischer TIMI Timer</title>
+  <desc id="desc">Die Anwendung erstellt, verbindet und startet einen periodischen TIMI-Timer. Die Timer-ISR sammelt Ticks. Der BPCI-Scheduler ruft TIMI_TaskFunction auf. Bei Ablauf reiht TIMI den Timer erneut ein, weckt den Task und der Task liest das Timerereignis mit TIMI_Event.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#29495a"/>
+    </marker>
+    <marker id="return-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#526b78"/>
+    </marker>
+    <style>
+      text { font-family: Arial, sans-serif; fill: #172a35; }
+      .title { font-size: 23px; font-weight: 700; }
+      .participant { fill: #eaf3f7; stroke: #31566b; stroke-width: 2; }
+      .participant-text { font-size: 16px; text-anchor: middle; }
+      .life { stroke: #80939c; stroke-width: 2; stroke-dasharray: 8 7; }
+      .message { stroke: #29495a; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .return { stroke: #526b78; stroke-width: 2.5; stroke-dasharray: 7 5; fill: none; marker-end: url(#return-arrow); }
+      .label { font-size: 14px; text-anchor: middle; }
+      .loop { fill: none; stroke: #728892; stroke-width: 2; }
+      .loop-label { font-size: 15px; font-weight: 700; }
+      .note { font-size: 13px; fill: #52616b; }
+    </style>
+  </defs>
+  <rect width="1380" height="1020" fill="#ffffff"/>
+  <text class="title" x="690" y="34" text-anchor="middle">Periodischer TIMI-Timer – Initialisierung und Ablauf</text>
+
+  <rect class="participant" x="40" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="300" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="560" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="820" y="55" width="200" height="58" rx="10"/>
+  <rect class="participant" x="1080" y="55" width="240" height="58" rx="10"/>
+  <text class="participant-text" x="140" y="80"><tspan x="140">main() /</tspan><tspan x="140" dy="20">Anwendung</tspan></text>
+  <text class="participant-text" x="400" y="91">Timer-ISR</text>
+  <text class="participant-text" x="660" y="80"><tspan x="660">BPCI /</tspan><tspan x="660" dy="20">Scheduler</tspan></text>
+  <text class="participant-text" x="920" y="91">TIMI</text>
+  <text class="participant-text" x="1200" y="91">Empfänger-Task</text>
+
+  <path class="life" d="M140 113 V990 M400 113 V990 M660 113 V990 M920 113 V990 M1200 113 V990"/>
+
+  <text class="label" x="530" y="148">TIMI_CreateWakeUpTimer(name, process, TIMI_PERIODIC, delay)</text>
+  <path class="message" d="M140 159 H920"/>
+  <text class="label" x="530" y="204">Timer-ID</text>
+  <path class="return" d="M920 215 H140"/>
+  <text class="label" x="530" y="254">TIMI_Connect(timer, task)</text>
+  <path class="message" d="M140 265 H920"/>
+  <text class="label" x="530" y="304">TIMI_Start(timer)</text>
+  <path class="message" d="M140 315 H920"/>
+
+  <text class="label" x="790" y="354">TIMI_Activate() beim Schedulerstart</text>
+  <path class="message" d="M660 365 H920"/>
+
+  <path class="loop" d="M285 400 H1340 V955 H285 Z"/>
+  <path class="loop" d="M285 400 H435 V430 H285 Z"/>
+  <text class="loop-label" x="360" y="421" text-anchor="middle">loop</text>
+  <text class="note" x="450" y="421">Tick-Verarbeitung und Timerabläufe wiederholen sich</text>
+
+  <text class="label" x="660" y="477">ProcessTimer(): elapsed_ticks++</text>
+  <path class="message" d="M400 488 H920"/>
+  <text class="label" x="790" y="557">TIMI_TaskFunction()</text>
+  <path class="message" d="M660 568 H920"/>
+  <text class="label" x="1020" y="627" text-anchor="start">Restzeit abbauen;</text>
+  <text class="label" x="1020" y="647" text-anchor="start">periodisch neu einreihen</text>
+  <path class="message" d="M920 658 H970 V682 H920"/>
+  <text class="label" x="1060" y="727">BPCI_WakeUpTask(task)</text>
+  <path class="message" d="M920 738 H660"/>
+  <text class="label" x="930" y="807">Task beim Schedulerlauf ausführen</text>
+  <path class="message" d="M660 818 H1200"/>
+  <text class="label" x="1060" y="877">TIMI_Event(timer)</text>
+  <path class="message" d="M1200 888 H920"/>
+  <text class="label" x="1060" y="937">TRUE; Ablauf-Flag löschen</text>
+  <path class="return" d="M920 948 H1200"/>
+</svg>

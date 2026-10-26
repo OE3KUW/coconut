@@ -28,6 +28,8 @@ second.
 - Send `e` to wake the output task through a CCN event.
 - Send `m` to wake it with a mailbox message containing elapsed whole seconds.
 - Send `w` to wake it directly.
+- Send `t` to start a one-shot timer; after three seconds it wakes the output
+  task, which reports the timer expiration.
 
 The output task prints a different message for each wake-up reason. UART
 receive data is buffered by an interrupt handler; a periodic CCN task checks
@@ -46,10 +48,11 @@ timer expiry handling and task execution happen in the main loop.
 - Equal-priority ready tasks are selected round-robin.
 - Waking an already-ready task does not create a duplicate activation.
 - Repeated events are coalesced into one pending event.
-- Mailboxes hold four one-byte messages; sending to a full mailbox returns
+- Mailboxes hold four 32-bit messages; sending to a full mailbox returns
   `false`.
 - Timer delays are expressed in 8 ms ticks. Periodic timer notifications are
   coalesced if a task has not processed the previous notification yet.
+- The serial command `t` starts or restarts a one-shot 3-second timer.
 - If the pending hardware-tick counter reaches its maximum, it saturates and
   `ccn_tick_overflowed()` reports the condition.
 
@@ -69,3 +72,7 @@ from both `src/` and `coconut/` can be selected. `build_src_filter` selects
 `src/main.c` and all `coconut/*.c` files. The legacy APIs are compiled for
 AVR and their module state is initialized in `main.c` in dependency order.
 The demo tasks and event handling use the newer `ccn_*` API.
+
+See [Dokumentation_o-onut.docx](./Dokumentation_o-onut.docx) for the scheduler,
+events, mailboxes, timers, serial commands, UML sequence diagrams, flowcharts,
+and API appendices. Editable UML sources are in `docs/uml/`.
