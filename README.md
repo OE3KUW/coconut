@@ -73,6 +73,6 @@ from both `src/` and `coconut/` can be selected. `build_src_filter` selects
 AVR and their module state is initialized in `main.c` in dependency order.
 The demo tasks and event handling use the newer `ccn_*` API.
 
-See [Dokumentation_o-onut.docx](./Dokumentation_o-onut.docx) for the scheduler,
+See [Dokumentation_coconut.docx](./Dokumentation_coconut.docx) for the scheduler,
 events, mailboxes, timers, serial commands, UML sequence diagrams, flowcharts,
 and API appendices. Editable UML sources are in `docs/uml/`.
