@@ -28,25 +28,25 @@ typedef enum {
 void ERRI_vErrorHandler(ERRI_Error error, uint8_t location, const void *context);
 void ERRI_SoftwareReset(void);
 
-#define BPCI_LOCATION_0 0u
-#define BPCI_LOCATION_1 1u
-#define BPCI_LOCATION_2 2u
-#define BPCI_LOCATION_3 3u
-#define BPCI_LOCATION_4 4u
-#define EVTI_LOCATION_1 1u
-#define EVTI_LOCATION_2 2u
-#define EVTI_LOCATION_3 3u
-#define EVTI_LOCATION_4 4u
-#define MBXI_LOCATION_1 1u
-#define MBXI_LOCATION_2 2u
-#define MBXI_LOCATION_3 3u
-#define MBXI_LOCATION_4 4u
-#define TIMI_LOCATION_1 1u
-#define TIMI_LOCATION_2 2u
-#define TIMI_LOCATION_3 3u
-#define TIMI_LOCATION_4 4u
-#define TIMI_LOCATION_5 5u
-#define TIMI_LOCATION_6 6u
-#define TIMI_LOCATION_7 7u
+#define BPCI_LOCATION_0 0
+#define BPCI_LOCATION_1 1
+#define BPCI_LOCATION_2 2
+#define BPCI_LOCATION_3 3
+#define BPCI_LOCATION_4 4
+#define EVTI_LOCATION_1 1
+#define EVTI_LOCATION_2 2
+#define EVTI_LOCATION_3 3
+#define EVTI_LOCATION_4 4
+#define MBXI_LOCATION_1 1
+#define MBXI_LOCATION_2 2
+#define MBXI_LOCATION_3 3
+#define MBXI_LOCATION_4 4
+#define TIMI_LOCATION_1 1
+#define TIMI_LOCATION_2 2
+#define TIMI_LOCATION_3 3
+#define TIMI_LOCATION_4 4
+#define TIMI_LOCATION_5 5
+#define TIMI_LOCATION_6 6
+#define TIMI_LOCATION_7 7
 
 #endif

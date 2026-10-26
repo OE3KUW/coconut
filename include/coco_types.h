@@ -15,7 +15,7 @@ typedef VOID (*PPV)(VOID);
 
 #define TRUE true
 #define FALSE false
-#define ZERO 0u
+#define ZERO 0
 #define __tiny
 #define __near
 #define __adecl

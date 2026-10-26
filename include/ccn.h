@@ -4,22 +4,22 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define CCN_MAX_TASKS 8u
-#define CCN_MAX_EVENTS 8u
-#define CCN_MAX_MAILBOXES 4u
-#define CCN_MAILBOX_CAPACITY 4u
-#define CCN_MAX_TIMERS 8u
+#define CCN_MAX_TASKS 8
+#define CCN_MAX_EVENTS 8
+#define CCN_MAX_MAILBOXES 4
+#define CCN_MAILBOX_CAPACITY 4
+#define CCN_MAX_TIMERS 8
 
-#define CCN_TICK_MS 8u
+#define CCN_TICK_MS 8
 
 typedef uint8_t ccn_task_t;
 typedef uint8_t ccn_event_t;
 typedef uint8_t ccn_mailbox_t;
 typedef uint8_t ccn_timer_t;
-typedef uint8_t ccn_message_t;
+typedef uint32_t ccn_message_t;
 typedef void (*ccn_task_fn_t)(void);
 
-#define CCN_INVALID_ID 0u
+#define CCN_INVALID_ID 0
 
 void ccn_init(void);
 ccn_task_t ccn_task_create(ccn_task_fn_t function, uint8_t priority);

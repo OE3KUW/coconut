@@ -1,46 +1,21 @@
-/****************************************************************************
-*   PROJECT    : PAOLINA
-*****************************************************************************
-*
-*   SUBPROJECT : Central controller
-*
-*       MODULE : CNF.H
-*
-*  DESCRIPTION : CoCoNut configuration headerfile
-*
-*      $Archive: /AIO/Project/INC/CNF.H $
-*     $Revision: 1 $
-*  Last $Author: Hoffmann $
-*         $Date: 7.03.97 8:17 $
-*
-*  First Author: PSC
-* Creation Date: 07.03.1996 15:18
-*
-*****************************************************************************
-* MODIFICATIONS
-*****************************************************************************
-*
-*      $History: CNF.H $
- *
- * *****************  Version 1  *****************
- * User: Hoffmann     Date: 7.03.97    Time: 8:17
- * Created in $/AIO/Project/INC
- ****************************************************************************/
+/************************************************************************************
+                                  <o<onut
+************************************************************************************/
  #ifndef MOD_CNF
  #define MOD_CNF
 
  #include <stdint.h>
 
- #define CNF_MAX_NR_TASKS        16u
- #define CNF_MAX_NR_EVENTS       8u
- #define CNF_MAX_NR_MAILBOXES    8u
- #define CNF_MAX_NR_TIMERS       8u
- #define CNF_MAX_NR_QUEUE_CELLS  32u
- #define CNF_MAX_TASK_PRIORITY   255u
- #define CNF_MAX_TIMERDELAY      65535u
+ #define CNF_MAX_NR_TASKS        16
+ #define CNF_MAX_NR_EVENTS       8
+ #define CNF_MAX_NR_MAILBOXES    8
+ #define CNF_MAX_NR_TIMERS       8
+ #define CNF_MAX_NR_QUEUE_CELLS  32
+ #define CNF_MAX_TASK_PRIORITY   255
+ #define CNF_MAX_TIMERDELAY      65535
 
- #define OFF 0u
- #define ON  1u
+ #define OFF 0
+ #define ON  1
 
  #define MSEC / 8
 

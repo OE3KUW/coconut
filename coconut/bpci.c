@@ -1,51 +1,6 @@
-/***************************************************************************
-*   PROJECT    : PAOLINA
-****************************************************************************
-*
-*   SUBPROJECT : <o<oNut
-*
-*       MODULE : Basic process and task management
-*
-*  DESCRIPTION : BPCI.C sourcefile
-*
-*      $Archive: /AIO/Project/INFRA/SRC/BPCI.C $
-*     $Revision: 5 $
-*  Last $Author: Burgstaller $
-*         $Date: 11.04.97 10:25 $
-*
-*  First Author: Paul Schenk
-* Creation Date: 01.12.95
-*
-****************************************************************************
-* MODIFICATIONS
-****************************************************************************
-*
-*      $History: BPCI.C $
- *
- * *****************  Version 5  *****************
- * User: Burgstaller  Date: 11.04.97   Time: 10:25
- * Updated in $/AIO/Project/INFRA/SRC
- *
- * *****************  Version 4  *****************
- * User: Reichl       Date: 8.04.97    Time: 8:32
- * Updated in $/AIO/Project/INFRA/SRC
- * changes with flag HRE commented
- *
- * *****************  Version 3  *****************
- * User: Reichl       Date: 4.04.97    Time: 14:10
- * Updated in $/AIO/Project/INFRA/SRC
- *
- * *****************  Version 2  *****************
- * User: Reichl       Date: 19.03.97   Time: 10:29
- * Updated in $/AIO/Project/INFRA/SRC
- *
- * *****************  Version 1  *****************
- * User: Hoffmann     Date: 7.03.97    Time: 8:18
- * Created in $/AIO/Project/INFRA/SRC
-*
-\***************************************************************************/
-
-
+/************************************************************************************
+                                  <o<onut
+************************************************************************************/
 #define   MOD_BPCI
 
 #include "coco_types.h"

@@ -1,4 +1,4 @@
-# CCN on Arduino Uno with PlatformIO
+# <o<onut (CCN) on Arduino Uno with PlatformIO
 
 This project targets an Arduino Uno with an ATmega328P running at 16 MHz. It
 uses PlatformIO and AVR-GCC directly. It does not use the Arduino framework or
@@ -19,10 +19,19 @@ the board with a USB data cable; PlatformIO normally detects the serial port
 automatically. If more than one serial device is connected, set `upload_port`
 in `platformio.ini` to the correct port. Do not change fuse bits for this setup.
 
-## Current hardware demonstration
+## Serial demonstration
 
-The firmware toggles the Uno's built-in LED on pin 13 about once per second.
-The demonstration uses a periodic CCN timer and the cooperative scheduler.
+The firmware uses UART at 9600 baud (8N1). Connect a serial terminal to the
+Uno's USB serial port. The built-in LED on pin 13 toggles about once per
+second.
+
+- Send `e` to wake the output task through a CCN event.
+- Send `m` to wake it with a mailbox message containing elapsed whole seconds.
+- Send `w` to wake it directly.
+
+The output task prints a different message for each wake-up reason. UART
+receive data is buffered by an interrupt handler; a periodic CCN task checks
+the buffer. The serial module derives elapsed seconds from the Timer1 tick.
 Timer1 is reserved by CCN.
 
 Timer1 runs in CTC mode with a prescaler of 64. At 16 MHz its counter clock is
@@ -52,10 +61,11 @@ timer expiry handling and task execution happen in the main loop.
   entry point is disabled with `CCN_NO_MAIN`, leaving `src/main.c` as the
   firmware entry point.
 - `include/` contains the public CCN header and all interface headers ending
-  in `_if.h`, plus shared compatibility headers for the legacy modules.
+  in `_if.h`, plus shared compatibility headers for the legacy modules and
+  the serial interface.
 
 The PlatformIO source directory is set to the project root so that sources
 from both `src/` and `coconut/` can be selected. `build_src_filter` selects
 `src/main.c` and all `coconut/*.c` files. The legacy APIs are compiled for
-AVR, but the current demo uses the newer `ccn_*` API and does not initialize
-the separate legacy scheduler.
+AVR and their module state is initialized in `main.c` in dependency order.
+The demo tasks and event handling use the newer `ccn_*` API.

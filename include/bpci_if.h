@@ -1,43 +1,6 @@
-/****************************************************************************
-*   PROJECT    : PAOLINA
-*****************************************************************************
-*
-*   SUBPROJECT : <o<oNut
-*
-*       MODULE : Basic process and task management
-*
-*  DESCRIPTION : BPCI_IF.H interface headerfile
-*
-*      $Archive: /AIO/Project/INFRA/INC/BPCI_IF.H $
-*     $Revision: 3 $
-*  Last $Author: Schenk $
-*         $Date: 23.06.97 11:12 $
-*
-*  First Author: Paul Schenk
-* Creation Date: 01.12.95
-*
-*****************************************************************************
-* MODIFICATIONS
-*****************************************************************************
-*
-*      $History: BPCI_IF.H $
- *
- * *****************  Version 3  *****************
- * User: Schenk       Date: 23.06.97   Time: 11:12
- * Updated in $/AIO/Project/INFRA/INC
- * problem with last line corrected
- *
- * *****************  Version 2  *****************
- * User: Schenk       Date: 21.06.97   Time: 14:38
- * Updated in $/AIO/Project/INFRA/INC
- * first draft of interface description macros added
- *
- * *****************  Version 1  *****************
- * User: Hoffmann     Date: 7.03.97    Time: 8:18
- * Created in $/AIO/Project/INFRA/INC
-*
-****************************************************************************/
-
+/************************************************************************************
+                                  <o<onut
+************************************************************************************/
 #ifndef  MOD_H_IF_BPCI
 #define  MOD_H_IF_BPCI
 
@@ -195,7 +158,7 @@ EXT   TASK   __tiny   nr_tasks;          /* number of tasks      */
  *  IN
  *  PRE     TRUE
  *  POST
- *  RETURN  TRUE if coconut has been started
+ *  RETURN  TRUE if <o<onut has been started
  *  INFO
  @END**********************************************************************/
 

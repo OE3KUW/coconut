@@ -2,6 +2,7 @@
 #include <avr/io.h>
 
 #include "ccn.h"
+#include "sioi_if.h"
 
 #if F_CPU != 16000000UL
 #error "The Uno timer setup expects a 16 MHz clock."
@@ -19,9 +20,9 @@ extern volatile bool tick_overflow;
 
 void ccn_timer_hardware_init(void)
 {
-    TCCR1A = 0u;
-    TCCR1B = 0u;
-    TCNT1 = 0u;
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TCNT1 = 0;
     OCR1A = (uint16_t)TIMER1_COMPARE;
     TIFR1 = _BV(OCF1A);
     TIMSK1 = _BV(OCIE1A);
@@ -30,6 +31,7 @@ void ccn_timer_hardware_init(void)
 
 ISR(TIMER1_COMPA_vect)
 {
+    SIOI_TickFromISR();
     if (pending_ticks != UINT32_MAX) {
         pending_ticks++;
     } else {

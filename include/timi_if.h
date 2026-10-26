@@ -1,43 +1,6 @@
-/****************************************************************************
-*   PROJECT    : PAOLINA
-*****************************************************************************
-*
-*   SUBPROJECT : <o<oNut
-*
-*       MODULE : Timer management
-*
-*  DESCRIPTION : TIMI_IF.H interface headerfile
-*
-*      $Archive: /AIO/Project/INFRA/INC/TIMI_IF.H $
-*     $Revision: 3 $
-*  Last $Author: Schenk $
-*         $Date: 23.06.97 11:12 $
-*
-*  First Author: Paul Schenk
-* Creation Date: 22.11.95
-*
-*****************************************************************************
-* MODIFICATIONS
-*****************************************************************************
-*
-*      $History: TIMI_IF.H $
- * 
- * *****************  Version 3  *****************
- * User: Schenk       Date: 23.06.97   Time: 11:12
- * Updated in $/AIO/Project/INFRA/INC
- * problem with last line corrected
- *
- * *****************  Version 2  *****************
- * User: Schenk       Date: 21.06.97   Time: 14:38
- * Updated in $/AIO/Project/INFRA/INC
- * first draft of interface description macros added
- *
- * *****************  Version 1  *****************
- * User: Hoffmann     Date: 7.03.97    Time: 8:18
- * Created in $/AIO/Project/INFRA/INC
-*
-****************************************************************************/
-
+/************************************************************************************
+                                  <o<onut
+************************************************************************************/
 #ifndef  MOD_H_IF_TIMI
 #define  MOD_H_IF_TIMI
 
