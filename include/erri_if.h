@@ -1,0 +1,52 @@
+#ifndef ERRI_IF_H
+#define ERRI_IF_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+typedef enum {
+    ERR_BAD_STACK,
+    ERR_INVAL_TASK,
+    ERR_NO_MORE_TASKS,
+    ERR_NO_MORE_EVENTS,
+    ERR_INVAL_EVENT_CONNECT,
+    ERR_INVAL_EVENT_SEND,
+    ERR_INVAL_EVENT_RECEIVE,
+    ERR_NO_MORE_MAILBOXES,
+    ERR_INVAL_MBX_CONNECT,
+    ERR_INVAL_MBX_SEND,
+    ERR_INVAL_MBX_RECEIVE,
+    ERR_NO_MORE_TIMERS,
+    ERR_INVAL_TIMER_CONNECT,
+    ERR_INVAL_TIMER_START,
+    ERR_INVAL_TIMER_STOP,
+    ERR_INVAL_TIMER_EVENT,
+    ERR_INVAL_TIMER_MODE,
+    ERR_INVAL_TIMER_DELAY
+} ERRI_Error;
+
+void ERRI_vErrorHandler(ERRI_Error error, uint8_t location, const void *context);
+void ERRI_SoftwareReset(void);
+
+#define BPCI_LOCATION_0 0u
+#define BPCI_LOCATION_1 1u
+#define BPCI_LOCATION_2 2u
+#define BPCI_LOCATION_3 3u
+#define BPCI_LOCATION_4 4u
+#define EVTI_LOCATION_1 1u
+#define EVTI_LOCATION_2 2u
+#define EVTI_LOCATION_3 3u
+#define EVTI_LOCATION_4 4u
+#define MBXI_LOCATION_1 1u
+#define MBXI_LOCATION_2 2u
+#define MBXI_LOCATION_3 3u
+#define MBXI_LOCATION_4 4u
+#define TIMI_LOCATION_1 1u
+#define TIMI_LOCATION_2 2u
+#define TIMI_LOCATION_3 3u
+#define TIMI_LOCATION_4 4u
+#define TIMI_LOCATION_5 5u
+#define TIMI_LOCATION_6 6u
+#define TIMI_LOCATION_7 7u
+
+#endif

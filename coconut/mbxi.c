@@ -31,19 +31,18 @@
 
 #define   MOD_MBXI
 
-#include "CDIV.H"
-//#include "COMPILER.H"
-#include "TYPE.H"
+#include "coco_types.h"
+#include "cnf.h"
+#include "legacy_macros.h"
 //#include "CNF.H"
 //#include "MACRO.H"
-#include "ERRORS.H"
-#include "ERRI_IF.H"
+#include "erri_if.h"
 
-#include "BPCI_IF.H"
-#include "QUEI_IF.H"
+#include "bpci_if.h"
+#include "quei_if.h"
 
-#include "MBXI_IF.H"
-#include "MBXI.H"
+#include "mbxi_if.h"
+#include "mbxi.h"
 
 /*
  * Initialisation

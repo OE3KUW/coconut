@@ -31,26 +31,19 @@
 
 #define   MOD_TIMI
 
-#include "CDIVAUD.H"
-#include "CDIVCMPR.H"
-#include "CDIVSW.H"
-#include "CDIVTBDD.H"
+#include "coco_types.h"
+#include "cnf.h"
+#include "legacy_macros.h"
+#include "erri_if.h"
 
-//#include "COMPILER.H"
-#include "TYPE.H"
-#include "CNF.H"
-#include "MACRO.H"
-#include "ERRORS.H"
-#include "ERRI_IF.H"
+#include "bpci_if.h"
 
-#include "BPCI_IF.H"
-
-#include "TIMI_IF.H"
-#include "TIMI.H"
+#include "timi_if.h"
+#include "timi.h"
 
 #if (COCO_TIMER_IN_C == ON)
 #ifndef PCV
-#include "DCKB_IF.H"
+#include "dckb_if.h"
 #endif
 #endif
 

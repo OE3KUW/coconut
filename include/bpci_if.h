@@ -45,8 +45,8 @@
 * Includes
 *******************************************************************************/
 
-#include "CNF.H"
-#include "type.h"
+#include "cnf.h"
+#include "coco_types.h"
 
 #ifdef   MOD_BPCI
 #define  EXT

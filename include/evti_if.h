@@ -49,7 +49,7 @@
 * Includes
 *******************************************************************************/
 
-#include "BPCI_IF.H"
+#include "bpci_if.h"
 
 #ifdef   MOD_EVTI
 #define  EXT

@@ -35,16 +35,13 @@
 
 #define   MOD_EVTI
 
-#include "CDIV.H"
-//#include "COMPILER.H"
-#include "TYPE.H"
-//#include "CNF.H"
-//#include "MACRO.H"
-#include "ERRORS.H"
-#include "ERRI_IF.H"
+#include "coco_types.h"
+#include "cnf.h"
+#include "legacy_macros.h"
+#include "erri_if.h"
 
-#include "EVTI_IF.H"
-#include "EVTI.H"
+#include "evti_if.h"
+#include "evti.h"
 
 /* Initialisation */
 

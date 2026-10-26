@@ -35,17 +35,15 @@
 
 #define   MOD_QUEI
 
-#include "CDIV.H"
-//#include "COMPILER.H"
-#include "TYPE.H"
-//#include "CNF.H"
-//#include "MACRO.H"
+#include "coco_types.h"
+#include "cnf.h"
+#include "legacy_macros.h"
 
-#include "BPCI_IF.H"
-#include "ERRI_IF.H"
+#include "bpci_if.h"
+#include "erri_if.h"
 
-#include "QUEI_IF.H"
-#include "QUEI.H"
+#include "quei_if.h"
+#include "quei.h"
 
 /*
  * Initialisation

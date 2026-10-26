@@ -48,22 +48,18 @@
 
 #define   MOD_BPCI
 
-#include "CDIV.H"
-//#include "COMPILER.H"
-#include "TYPE.H"
-#include "CNF.H"
-#include "MACRO.H"
-#include "ERRORS.H"
+#include "coco_types.h"
+#include "cnf.h"
+#include "legacy_macros.h"
 
-#include "QUEI_IF.H"
-#include "MBXI_IF.H"
-#include "EVTI_IF.H"
-#include "TIMI_IF.H"
-#include "MALI_IF.H"
+#include "quei_if.h"
+#include "mbxi_if.h"
+#include "evti_if.h"
+#include "timi_if.h"
 
-#include "BPCI_IF.H"
-#include "BPCI.H"
-#include "ERRI_IF.H"
+#include "bpci_if.h"
+#include "bpci.h"
+#include "erri_if.h"
 
 
 #ifdef PCV
@@ -95,8 +91,7 @@ VOID do_start(VOID)
     /* ASSERT TRAP */
     VOID ____f(VOID)
     {
-        __asm("ei 6");      /* disable all interrupts level<6 */
-        while(TRUE);
+        ERRI_SoftwareReset();
     } // only a trap, because our VCR has no console
 #else
     VOID ____f(char *ass, char *fn, int ln)
@@ -395,7 +390,7 @@ VOID BPCI_IsrWakeUpTask(TASK t)
     ASSERT(!(t > nr_tasks || t == ZERO));
   #else
     if(t > nr_tasks || t == ZERO)  // i can not use the error handler out
-        ((void (*) ()) 0) ();      // of an interrupt handler
+        ERRI_SoftwareReset();
   #endif
 
     if(BPC_T_FLAG(t) == (FLAG)FALSE)   /* if t is not already awake */
@@ -462,4 +457,3 @@ VOID BPCI_IsrWakeUpTask(TASK t)
     }
     LEAVE_CRITICAL_SECTION;
 }
-

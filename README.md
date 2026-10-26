@@ -48,11 +48,14 @@ timer expiry handling and task execution happen in the main loop.
 
 - `src/` contains the application entry point (`main.c`).
 - `coconut/` contains the CCN kernel sources and their module headers. The
-  PlatformIO build compiles `ccn.c` and `timer_avr.c`; the historical module
-  sources are retained here but are not part of the current build.
+  PlatformIO build compiles every `.c` file in this folder. The legacy BPCI
+  entry point is disabled with `CCN_NO_MAIN`, leaving `src/main.c` as the
+  firmware entry point.
 - `include/` contains the public CCN header and all interface headers ending
-  in `_if.h`.
+  in `_if.h`, plus shared compatibility headers for the legacy modules.
 
 The PlatformIO source directory is set to the project root so that sources
-from both `src/` and `coconut/` can be selected. `build_src_filter` explicitly
-limits the build to the application and active kernel sources.
+from both `src/` and `coconut/` can be selected. `build_src_filter` selects
+`src/main.c` and all `coconut/*.c` files. The legacy APIs are compiled for
+AVR, but the current demo uses the newer `ccn_*` API and does not initialize
+the separate legacy scheduler.

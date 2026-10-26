@@ -42,8 +42,6 @@
  #define OFF 0u
  #define ON  1u
 
- #define F_CPU 16000000UL
- #define TIMI_TIMER_TIME ((uint16_t)(-5333))
  #define MSEC / 8
 
  #define CNF_ASSERTING
@@ -54,9 +52,4 @@
  #define ASSERT(cond) do { (void)sizeof(cond); } while (0)
  #endif
 
- #ifndef PCV
- #define TIMI_INTCALL() DCKB_DeckAction()
  #endif
-
- #endif
-
