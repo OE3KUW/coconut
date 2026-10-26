@@ -134,7 +134,7 @@ int main(void)
         for (;;) {
         }
     }
-
+    printf("-------------------------------------------------------\n");
     printf("<o<onut bereit. e=Event, m=Mailbox, w=WakeUp, t=Timer (3 s).\n");
     ccn_start();
 }
