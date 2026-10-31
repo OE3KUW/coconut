@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -7,261 +7,117 @@
 
                                                     қuran Wolfgang
 ******************************************************************/
-#ifndef  MOD_H_IF_BPCI
-#define  MOD_H_IF_BPCI
-
-/*******************************************************************************
-* Includes
-*******************************************************************************/
+#ifndef MOD_H_IF_BPCI
+#define MOD_H_IF_BPCI
 
 #include "cnf.h"
-#include "coco_types.h"
+#include "types.h"
 
-#ifdef   MOD_BPCI
-#define  EXT
-#define  CONST
+#ifdef MOD_BPCI
+#define EXT
 #else
-#define  EXT     extern
-#define  CONST   const
+#define EXT extern
 #endif
 
-/*******************************************************************************
-* Defines
-*******************************************************************************/
+/******************************************************************
+ * Types
+ ******************************************************************/
 
+/* Process types are retained for compatibility with the original API. */
+typedef UCHAR PROCESS;
+typedef UCHAR PROCESS_PRIORITY;
 
-/*********************************************************** @adt   @Hadt */
-#define NULL_TSK    ((TASK)ZERO)
-/* @END.Hadt
- *  INFO    symbolic name for task of type NIL; used as return value if
- *          creation of a task has failed
- *  ACCESS
- @END**********************************************************************/
+typedef UCHAR TASK;
+typedef UCHAR TASK_PRIORITY;
+typedef UCHAR FLAG;
+typedef VOID (*PPV)(VOID);
 
-/*********************************************************** @adt   @Hadt */
-#define NULL_PRO    ((PROCESS)ZERO)
-/* @END.Hadt
- *  INFO    symbolic name for process of type NIL; used as return value if
- *          creation of a process has failed
- * ACCESS
- @END**********************************************************************/
+#define NULL_TSK ((TASK)ZERO)
+#define NULL_PRO ((PROCESS)ZERO)
 
+/******************************************************************
+ * Task control block
+ ******************************************************************/
 
-/*******************************************************************************
-* Typedefs
-*******************************************************************************/
-
-//####################################
-//##only for compatibility reasons####
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR        PROCESS;
-/* @END.Hadt
- *  INFO    data type for processes
- *  ACCESS
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR        PROCESS_PRIORITY;
-/* @END.Hadt
- *  INFO    data type for process priority
- *  ACCESS
- @END**********************************************************************/
-
-//####################################
-
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR        TASK;
-/* @END.Hadt
- *  INFO    data type for tasks
- *  ACCESS
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR        TASK_PRIORITY;
-/* @END.Hadt
- *  INFO    data type for task priority
- *  ACCESS
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR        FLAG;               /* flag type                     */
-/* @END.Hadt
- *  INFO    data type for flag
- *  ACCESS
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
-typedef VOID (* PPV)(VOID );             /* void  para  procedure pointer */
-/* @END.Hadt
- *  INFO    data type for void paraeter procedure pointer
- *  ACCESS
- @END**********************************************************************/
-
-struct TCBlock                           /* task control block      (8) 6 */
+struct TCBlock
 {
-    PPV                 action;          /* void (* action)(void)       2 */
-    TASK_PRIORITY       priority;        /* priority of the task        1 */
-    FLAG                flag;            /* awake                       1 */
-    TASK                next;            /* next active task            1 */
-    TASK                prev;            /* previous active task        1 */
+    PPV action;
+    TASK_PRIORITY priority;
+    FLAG flag;
+    TASK next;
+    TASK prev;
 };
 
-/*******************************************************************************
-* Variables EXT CONST or EXT
-*
-* NOTE: it is not allowed to access these variables although they are decleared to
-*       be external; this is only necessary because of error checking or because
-*       they are accessed via macros !!
-*******************************************************************************/
+/* Internal module state. Access it through the macros and functions below. */
+EXT struct TCBlock __near bpc_t_base[CNF_MAX_NR_TASKS];
+EXT TASK __tiny t_first;
+EXT TASK __tiny t_last;
+EXT TASK __tiny t_self;
+EXT BIT __tiny system_is_running;
+EXT TASK __tiny nr_tasks;
 
-EXT  struct TCBlock __near bpc_t_base[CNF_MAX_NR_TASKS];
+/******************************************************************
+ * State access
+ ******************************************************************/
 
-EXT   TASK   __tiny   t_first;           /* first task      */
-EXT   TASK   __tiny   t_last;            /* last task       */
-EXT   TASK   __tiny   t_self;            /* current task    */
-EXT   BIT    __tiny   system_is_running; /* system active   */
-EXT   TASK   __tiny   nr_tasks;          /* number of tasks      */
+#define BPCI_GetCurrentProcess() ((PROCESS)ZERO)
+#define BPCI_GetCurrentTask()    t_self
+#define BPCI_IsStarted()         system_is_running
+#define SYSI_IsStarted()         system_is_running
 
-/*******************************************************************************
-* Macros
-*******************************************************************************/
+#define BPC_T_FIELD(task, field) (bpc_t_base[(task) - 1].field)
+#define BPC_T_ACTION(task)       BPC_T_FIELD(task, action)
+#define BPC_T_PRIORITY(task)     BPC_T_FIELD(task, priority)
+#define BPC_T_FLAG(task)         BPC_T_FIELD(task, flag)
+#define BPC_T_NEXT(task)         BPC_T_FIELD(task, next)
+#define BPC_T_PREV(task)         BPC_T_FIELD(task, prev)
 
-/*********************************************************** @obs   @Hobs */
-#define BPCI_GetCurrentProcess()    ((PROCESS)0)
-/* @END.Hobs
- *  IN
- *  PRE     TRUE
- *  POST
- *  RETURN  get the identification of the actual active process
- *  INFO
- @END**********************************************************************/
+/******************************************************************
+ * Compatibility macros
+ ******************************************************************/
 
-
-/*********************************************************** @obs   @Hobs */
-#define BPCI_GetCurrentTask()       t_self
-/* @END.Hobs
- *  IN
- *  PRE     TRUE
- *  POST
- *  RETURN  get the identification of the actual active task
- *  INFO
- @END**********************************************************************/
-
-
-/*********************************************************** @obs   @Hobs */
-#define BPCI_IsStarted()            system_is_running
-/* @END.Hobs
- *  IN
- *  PRE     TRUE
- *  POST
- *  RETURN  TRUE if <o<onut has been started
- *  INFO
- @END**********************************************************************/
-
-#define SYSI_IsStarted()            system_is_running
-
-/* macros used by interrupt processes */
-
-/********************************************************** @pubv  @Hpubv */
+/* The AVR port does not require additional interrupt bookkeeping. */
 #define BPCI_INTERRUPT_STORE
-/* @END.Hpubv
- *  INFO
- *  ACCESS
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-#define BPCI_EnterInterrupt(p)
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
+#define BPCI_EnterInterrupt(process)
 #define BPCI_LeaveInterrupt()
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
 
+/* The original process layer is not used by this port. */
+#define BPCI_CreateInterruptProcess(name) ((PROCESS)ZERO)
+#define BPCI_CreateTask(action, priority) \
+    mBPCI_CreateTask((action), (priority))
 
-/*******************************************************************************
-* Internal access macros
-*******************************************************************************/
+/******************************************************************
+ * Public interface
+ ******************************************************************/
 
-#define BPC_T_FIELD( x, f )   ( bpc_t_base[(x)-1].f )
+/******************************************************************
+ * PURPOSE: Initialisiert die historische BPCI-Taskverwaltung.
+ * POST: Alle Taskkontrollblöcke und Ready-Listen sind zurückgesetzt.
+ ******************************************************************/
+EXT VOID BPCI_Init(VOID);
 
-#define BPC_T_ACTION( x )     BPC_T_FIELD( x, action )
-#define BPC_T_PRIORITY( x )   BPC_T_FIELD( x, priority )
-#define BPC_T_FLAG( x )       BPC_T_FIELD( x, flag )
-#define BPC_T_NEXT( x )       BPC_T_FIELD( x, next )
-#define BPC_T_PREV( x )       BPC_T_FIELD( x, prev )
+/******************************************************************
+ * PURPOSE: Legt einen kooperativen BPCI-Task an.
+ * IN: action - Taskfunktion, die der Scheduler aufrufen soll.
+ * IN: priority - Numerische Priorität des Tasks.
+ * OUT: Neue Task-ID oder NULL_TSK, wenn kein Task angelegt wurde.
+ * POST: Ein neuer Taskkontrollblock ist dauerhaft belegt.
+ ******************************************************************/
+EXT TASK mBPCI_CreateTask(PPV action, TASK_PRIORITY priority);
 
+/******************************************************************
+ * PURPOSE: Markiert einen Task als bereit und reiht ihn nach Priorität ein.
+ * IN: task - ID des aufzuweckenden Tasks.
+ * POST: Der Task steht einmal in der Ready-Liste.
+ ******************************************************************/
+EXT VOID BPCI_WakeUpTask(TASK task);
 
-/********************************************************* @trans @Htrans */
-#define BPCI_CreateInterruptProcess(s)  ((PROCESS)0)
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Interrupt-sichere Variante von BPCI_WakeUpTask().
+ * IN: task - ID des aus einem Interrupt aufzuweckenden Tasks.
+ * POST: Der Task steht einmal in der Ready-Liste.
+ ******************************************************************/
+EXT VOID BPCI_IsrWakeUpTask(TASK task);
 
-
-/********************************************************* @trans @Htrans */
-#define BPCI_CreateTask(c,n)    mBPCI_CreateTask(c,n)
-/* @END.Htrans
- *  IN      PPV c, TASK_PRIORITY n
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/*******************************************************************************
-* Functionprototypes EXT
-*******************************************************************************/
-
-/********************************************************* @trans @Htrans */
-VOID BPCI_Init(VOID);
-/* @END.Htrans
- *  IN
- *  PRE     has not been called before
- *  POST    all internal data structures are initialised
- *  RETURN
- *  INFO    should be called once only during startup
- @END**********************************************************************/
-
-
-EXT TASK    mBPCI_CreateTask(PPV c, TASK_PRIORITY n);
-
-/********************************************************* @trans @Htrans */
-EXT VOID BPCI_WakeUpTask(TASK t);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID BPCI_IsrWakeUpTask(TASK t);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-#undef   EXT
-#undef   CONST
+#undef EXT
 #endif
-/* be sure to have the last preprocessor command on a seperate line */

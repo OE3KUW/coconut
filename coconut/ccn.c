@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -13,25 +13,29 @@
 #include <avr/interrupt.h>
 #include <util/atomic.h>
 
-typedef struct {
+typedef struct
+{
     ccn_task_fn_t function;
     uint8_t priority;
     bool ready;
 } task_control_t;
 
-typedef struct {
+typedef struct
+{
     ccn_task_t receiver;
     bool pending;
 } event_control_t;
 
-typedef struct {
+typedef struct
+{
     ccn_task_t receiver;
     ccn_message_t messages[CCN_MAILBOX_CAPACITY];
     uint8_t head;
     uint8_t count;
 } mailbox_control_t;
 
-typedef struct {
+typedef struct
+{
     ccn_task_t receiver;
     uint16_t delay;
     uint16_t remaining;
@@ -63,8 +67,10 @@ static bool wake_task(ccn_task_t task)
 {
     bool valid = false;
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        if (task_id_valid(task)) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        if (task_id_valid(task))
+        {
             tasks[task - 1].ready = true;
             valid = true;
         }
@@ -100,7 +106,8 @@ ccn_task_t ccn_task_create(ccn_task_fn_t function, uint8_t priority)
 {
     uint8_t index;
 
-    if (function == 0 || task_count >= CCN_MAX_TASKS) {
+    if (function == 0 || task_count >= CCN_MAX_TASKS)
+    {
         return CCN_INVALID_ID;
     }
 
@@ -115,7 +122,8 @@ ccn_event_t ccn_event_create(ccn_task_t receiver)
 {
     uint8_t index;
 
-    if (!task_id_valid(receiver) || event_count >= CCN_MAX_EVENTS) {
+    if (!task_id_valid(receiver) || event_count >= CCN_MAX_EVENTS)
+    {
         return CCN_INVALID_ID;
     }
 
@@ -129,8 +137,10 @@ static bool send_event(ccn_event_t event)
 {
     bool valid = false;
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        if (event != CCN_INVALID_ID && event <= event_count) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        if (event != CCN_INVALID_ID && event <= event_count)
+        {
             event_control_t *control = &events[event - 1];
             control->pending = true;
             tasks[control->receiver - 1].ready = true;
@@ -155,11 +165,13 @@ bool ccn_event_receive(ccn_event_t event)
 {
     bool was_pending = false;
 
-    if (event == CCN_INVALID_ID || event > event_count) {
+    if (event == CCN_INVALID_ID || event > event_count)
+    {
         return false;
     }
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
         was_pending = events[event - 1].pending;
         events[event - 1].pending = false;
     }
@@ -171,7 +183,8 @@ ccn_mailbox_t ccn_mailbox_create(ccn_task_t receiver)
 {
     uint8_t index;
 
-    if (!task_id_valid(receiver) || mailbox_count >= CCN_MAX_MAILBOXES) {
+    if (!task_id_valid(receiver) || mailbox_count >= CCN_MAX_MAILBOXES)
+    {
         return CCN_INVALID_ID;
     }
 
@@ -187,12 +200,14 @@ bool ccn_mailbox_send(ccn_mailbox_t mailbox, ccn_message_t message)
     mailbox_control_t *control;
     uint8_t tail;
 
-    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count) {
+    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count)
+    {
         return false;
     }
 
     control = &mailboxes[mailbox - 1];
-    if (control->count >= CCN_MAILBOX_CAPACITY) {
+    if (control->count >= CCN_MAILBOX_CAPACITY)
+    {
         return false;
     }
 
@@ -207,12 +222,14 @@ bool ccn_mailbox_receive(ccn_mailbox_t mailbox, ccn_message_t *message)
 {
     mailbox_control_t *control;
 
-    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count || message == 0) {
+    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count || message == 0)
+    {
         return false;
     }
 
     control = &mailboxes[mailbox - 1];
-    if (control->count == 0) {
+    if (control->count == 0)
+    {
         return false;
     }
 
@@ -224,7 +241,8 @@ bool ccn_mailbox_receive(ccn_mailbox_t mailbox, ccn_message_t *message)
 
 uint8_t ccn_mailbox_count(ccn_mailbox_t mailbox)
 {
-    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count) {
+    if (mailbox == CCN_INVALID_ID || mailbox > mailbox_count)
+    {
         return 0;
     }
     return mailboxes[mailbox - 1].count;
@@ -234,7 +252,8 @@ ccn_timer_t ccn_timer_create(uint16_t delay_ticks, bool periodic)
 {
     uint8_t index;
 
-    if (delay_ticks == 0 || timer_count >= CCN_MAX_TIMERS) {
+    if (delay_ticks == 0 || timer_count >= CCN_MAX_TIMERS)
+    {
         return CCN_INVALID_ID;
     }
 
@@ -251,7 +270,8 @@ ccn_timer_t ccn_timer_create(uint16_t delay_ticks, bool periodic)
 bool ccn_timer_connect(ccn_timer_t timer, ccn_task_t receiver)
 {
     if (timer == CCN_INVALID_ID || timer > timer_count ||
-        !task_id_valid(receiver)) {
+        !task_id_valid(receiver))
+    {
         return false;
     }
     timers[timer - 1].receiver = receiver;
@@ -262,7 +282,8 @@ bool ccn_timer_start(ccn_timer_t timer)
 {
     timer_control_t *control;
 
-    if (timer == CCN_INVALID_ID || timer > timer_count) {
+    if (timer == CCN_INVALID_ID || timer > timer_count)
+    {
         return false;
     }
 
@@ -275,7 +296,8 @@ bool ccn_timer_start(ccn_timer_t timer)
 
 bool ccn_timer_stop(ccn_timer_t timer)
 {
-    if (timer == CCN_INVALID_ID || timer > timer_count) {
+    if (timer == CCN_INVALID_ID || timer > timer_count)
+    {
         return false;
     }
 
@@ -288,7 +310,8 @@ bool ccn_timer_expired(ccn_timer_t timer)
 {
     bool expired;
 
-    if (timer == CCN_INVALID_ID || timer > timer_count) {
+    if (timer == CCN_INVALID_ID || timer > timer_count)
+    {
         return false;
     }
 
@@ -301,34 +324,40 @@ static void process_timers(uint32_t elapsed)
 {
     uint8_t index;
 
-    for (index = 0; index < timer_count; index++) {
+    for (index = 0; index < timer_count; index++)
+    {
         timer_control_t *timer = &timers[index];
         uint32_t timer_elapsed = elapsed;
         uint32_t remaining;
 
-        if (!timer->running) {
+        if (!timer->running)
+        {
             continue;
         }
 
         remaining = timer->remaining;
-        if (timer_elapsed < remaining) {
+        if (timer_elapsed < remaining)
+        {
             timer->remaining = (uint16_t)(remaining - timer_elapsed);
             continue;
         }
 
         timer->expired = true;
-        if (timer->receiver != CCN_INVALID_ID) {
+        if (timer->receiver != CCN_INVALID_ID)
+        {
             (void)ccn_task_wake(timer->receiver);
         }
 
-        if (!timer->periodic) {
+        if (!timer->periodic)
+        {
             timer->running = false;
             continue;
         }
 
         timer_elapsed -= remaining;
         timer->remaining = timer->delay;
-        if (timer_elapsed >= timer->delay) {
+        if (timer_elapsed >= timer->delay)
+        {
             timer_elapsed %= timer->delay;
         }
         timer->remaining = (uint16_t)(timer->delay - timer_elapsed);
@@ -339,12 +368,14 @@ static void process_pending_ticks(void)
 {
     uint32_t elapsed;
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
         elapsed = pending_ticks;
         pending_ticks = 0;
     }
 
-    if (elapsed != 0) {
+    if (elapsed != 0)
+    {
         process_timers(elapsed);
     }
 }
@@ -352,7 +383,8 @@ static void process_pending_ticks(void)
 bool ccn_tick_overflowed(void)
 {
     bool overflowed;
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
         overflowed = tick_overflow;
     }
     return overflowed;
@@ -363,19 +395,24 @@ static int8_t take_ready_task(void)
     int8_t selected = -1;
     uint8_t offset;
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        for (offset = 0; offset < task_count; offset++) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        for (offset = 0; offset < task_count; offset++)
+        {
             uint8_t index = (uint8_t)((next_task_index + offset) % task_count);
-            if (!tasks[index].ready) {
+            if (!tasks[index].ready)
+            {
                 continue;
             }
             if (selected < 0 ||
-                tasks[index].priority > tasks[(uint8_t)selected].priority) {
+                tasks[index].priority > tasks[(uint8_t)selected].priority)
+            {
                 selected = (int8_t)index;
             }
         }
 
-        if (selected >= 0) {
+        if (selected >= 0)
+        {
             tasks[(uint8_t)selected].ready = false;
             next_task_index = (uint8_t)(((uint8_t)selected + 1) % task_count);
         }
@@ -384,16 +421,38 @@ static int8_t take_ready_task(void)
     return selected;
 }
 
+/******************************************************************
+ * Cooperative Coconut scheduler
+ *
+ * Der Scheduler bildet die zentrale Endlosschleife des Systems.
+ * Zuerst verarbeitet er die seit dem letzten Durchlauf gesammelten
+ * Hardware-Ticks und weckt dadurch gegebenenfalls fällige Timer-Tasks.
+ * Danach wählt er unter allen bereiten Tasks jenen mit der höchsten
+ * Priorität aus. Tasks gleicher Priorität kommen reihum zum Zug.
+ *
+ * Ein ausgewählter Task läuft kooperativ: Er behält den Prozessor, bis
+ * seine Taskfunktion freiwillig zurückkehrt. Interrupts bleiben dabei
+ * aktiv und können weiterhin neue Arbeit für den Scheduler vormerken.
+ * Sind keine Tasks bereit, prüft die Schleife fortlaufend auf neue Ticks
+ * und Wake-up-Anforderungen. Diese Funktion kehrt niemals zurück.
+ ******************************************************************/
 void ccn_start(void)
 {
-    sei();
 
-    for (;;) {
+    sei();   // Interrupts aktiviert
+
+    for (;;)
+    {
         int8_t selected;
 
+
         process_pending_ticks();
+
+
         selected = take_ready_task();
-        if (selected >= 0) {
+        if (selected >= 0)
+        {
+
             tasks[(uint8_t)selected].function();
         }
     }

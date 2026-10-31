@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -32,13 +32,16 @@ static int serial_putchar(char character, FILE *stream)
 {
     (void)stream;
 
-    if (character == '\n') {
-        while ((UCSR0A & _BV(UDRE0)) == 0) {
+    if (character == '\n')
+    {
+        while ((UCSR0A & _BV(UDRE0)) == 0)
+        {
         }
         UDR0 = '\r';
     }
 
-    while ((UCSR0A & _BV(UDRE0)) == 0) {
+    while ((UCSR0A & _BV(UDRE0)) == 0)
+    {
     }
     UDR0 = (uint8_t)character;
     return 0;
@@ -65,7 +68,8 @@ int SIOI_ReadChar(void)
 {
     uint8_t character;
 
-    if (rx_head == rx_tail) {
+    if (rx_head == rx_tail)
+    {
         return -1;
     }
 
@@ -78,7 +82,8 @@ uint32_t SIOI_Seconds(void)
 {
     uint32_t seconds;
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
         seconds = uptime_seconds;
     }
 
@@ -88,7 +93,8 @@ uint32_t SIOI_Seconds(void)
 void SIOI_TickFromISR(void)
 {
     ticks_in_second++;
-    if (ticks_in_second >= SIOI_TICKS_PER_SECOND) {
+    if (ticks_in_second >= SIOI_TICKS_PER_SECOND)
+    {
         ticks_in_second = 0;
         uptime_seconds++;
     }
@@ -99,7 +105,8 @@ ISR(USART_RX_vect)
     uint8_t character = UDR0;
     uint8_t next_head = (uint8_t)((rx_head + 1) & SIOI_RX_BUFFER_MASK);
 
-    if (next_head != rx_tail) {
+    if (next_head != rx_tail)
+    {
         rx_buffer[rx_head] = character;
         rx_head = next_head;
     }

@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -27,6 +27,8 @@
 extern volatile uint32_t pending_ticks;
 extern volatile bool tick_overflow;
 
+void ccn_timer_hardware_init(void);
+
 void ccn_timer_hardware_init(void)
 {
     TCCR1A = 0;
@@ -41,9 +43,12 @@ void ccn_timer_hardware_init(void)
 ISR(TIMER1_COMPA_vect)
 {
     SIOI_TickFromISR();
-    if (pending_ticks != UINT32_MAX) {
+    if (pending_ticks != UINT32_MAX)
+    {
         pending_ticks++;
-    } else {
+    }
+    else
+    {
         tick_overflow = true;
     }
 }

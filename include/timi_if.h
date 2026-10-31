@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -7,235 +7,132 @@
 
                                                     қuran Wolfgang
 ******************************************************************/
-#ifndef  MOD_H_IF_TIMI
-#define  MOD_H_IF_TIMI
+#ifndef MOD_H_IF_TIMI
+#define MOD_H_IF_TIMI
 
 #include "bpci_if.h"
 
-/*******************************************************************************
-* Includes
-*******************************************************************************/
-
-#ifdef   MOD_TIMI
-#define  EXT
-#define  CONST
+#ifdef MOD_TIMI
+#define EXT
 #else
-#define  EXT     extern
-#define  CONST   const
+#define EXT extern
 #endif
 
-/*******************************************************************************
-* Defines
-*******************************************************************************/
+/******************************************************************
+ * Types and constants
+ ******************************************************************/
 
-/*********************************************************** @adt   @Hadt */
-#define NULL_TMR    ((TIMER)ZERO)
-/* @END.Hadt
- *  INFO    symbolic name for timer of type NIL; used as return value if
- *          creation of a timer has failed
- *  ACCESS
- @END**********************************************************************/
+typedef UCHAR TIMER;
+typedef UINT TIMERDELAY;
+typedef UCHAR TIMERMODE;
 
+#define NULL_TMR      ((TIMER)ZERO)
+#define TIMI_PERIODIC ((TIMERMODE)0)
+#define TIMI_ONESHOT  ((TIMERMODE)1)
+#define DEF_TIME      ((TIMERDELAY)1)
 
-/*******************************************************************************
-* Typedefs
-*******************************************************************************/
+/* Number of hardware ticks waiting for timer processing. */
+EXT UCHAR __tiny elapsed_ticks;
 
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR    TIMER;
-/* @END.Hadt
- *  INFO    data type for timers
- *  ACCESS
- @END**********************************************************************/
+/******************************************************************
+ * Creation
+ ******************************************************************/
 
-/*********************************************************** @adt   @Hadt */
-typedef UINT     TIMERDELAY;
-/* @END.Hadt
- *  INFO    data type for timer delay
- *  ACCESS
- @END**********************************************************************/
+/* Create a wake-up timer and return its identifier. */
+#define TIMI_CreateWakeUpTimer(mode, delay) \
+    mTIMI_CreateWakeUpTimer((mode), (delay))
 
-/*********************************************************** @adt   @Hadt */
-typedef UCHAR    TIMERMODE;
-/* @END.Hadt
- *  INFO    data type for timer mode; example: TIMI_PERIODIC, TIMI_ONESHOT
- *  ACCESS
- @END**********************************************************************/
+/******************************************************************
+ * Public interface
+ ******************************************************************/
 
-/*********************************************************** @adt   @Hadt */
-#define TIMI_PERIODIC   ((TIMERMODE)0)
-/* @END.Hadt
- *  INFO    set mode of timer to be of type periodic; used as parameter for
- *          TIMI_SetMode() and TIMI_Create()
- *  ACCESS
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Initialisiert die historische Software-Timerverwaltung.
+ * POST: Alle Timer und die Delta-Liste sind zurückgesetzt.
+ ******************************************************************/
+EXT VOID TIMI_Init(VOID);
 
-/*********************************************************** @adt   @Hadt */
-#define TIMI_ONESHOT    ((TIMERMODE)1)
-/* @END.Hadt
- *  INFO    set mode of timer to be of type oneshot; used as parameter for
- *          TIMI_SetMode() and TIMI_Create()
- *  ACCESS
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Aktiviert den historischen Hardware-Timerdienst.
+ * POST: Der historische Timerdienst ist aktiviert, sofern unterstützt.
+ ******************************************************************/
+EXT VOID TIMI_Activate(VOID);
 
- /*******************************************************************************
-* Variables EXT
-*******************************************************************************/
+/******************************************************************
+ * PURPOSE: Legt einen periodischen oder einmaligen Wake-up-Timer an.
+ * IN: mode - TIMI_PERIODIC oder TIMI_ONESHOT.
+ * IN: delay - Verzögerung in Coconut-Ticks.
+ * OUT: Neue Timer-ID oder NULL_TMR, wenn kein Timer angelegt wurde.
+ * POST: Ein neuer Timerkontrollblock ist dauerhaft belegt.
+ ******************************************************************/
+EXT TIMER mTIMI_CreateWakeUpTimer(TIMERMODE mode, TIMERDELAY delay);
 
-/********************************************************** @pubv  @Hpubv */
-EXT    UCHAR  __tiny  elapsed_ticks; /* incemented by interrupt handler */
-/* @END.Hpubv
- *  INFO    counts the elapsed timer ticks
- *  ACCESS  W from timer interrupt; R/W from this module (in an critical section)
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Verbindet einen Timer mit dem aufzuweckenden Task.
+ * IN: timer - ID des Timers.
+ * IN: task - ID des Tasks, der beim Ablauf geweckt wird.
+ * POST: Der Timer besitzt dauerhaft den angegebenen Empfänger.
+ ******************************************************************/
+EXT VOID TIMI_Connect(TIMER timer, TASK task);
 
+/******************************************************************
+ * PURPOSE: Trennt einen Timer von seinem bisherigen Empfänger-Task.
+ * IN: timer - ID des Timers.
+ * IN: task - Erwartete ID des bisherigen Empfänger-Tasks.
+ * POST: Die Verbindung ist entfernt, wenn sie zu task gehört hat.
+ ******************************************************************/
+EXT VOID TIMI_Disconnect(TIMER timer, TASK task);
 
-/*******************************************************************************
-* Macros
-*******************************************************************************/
+/******************************************************************
+ * PURPOSE: Startet einen Timer oder startet ihn mit voller Dauer neu.
+ * IN: timer - ID des zu startenden Timers.
+ * POST: Der Timer ist mit seiner vollständigen Verzögerung aktiv.
+ ******************************************************************/
+EXT VOID TIMI_Start(TIMER timer);
 
-/********************************************************* @trans @Htrans */
-#define TIMI_CreateWakeUpTimer(m,d) mTIMI_CreateWakeUpTimer(m,d)
-/* @END.Htrans
- *  IN      TIMERMODE m, TIMERDELAY d
- *  PRE
- *  POST
- *  RETURN  ((TIMER)(Value)) <> NULL_TMR if creation was a success
- *  INFO
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Stoppt einen Timer und löscht sein Ablaufereignis.
+ * IN: timer - ID des zu stoppenden Timers.
+ * POST: Der Timer ist inaktiv und nicht mehr als abgelaufen markiert.
+ ******************************************************************/
+EXT VOID TIMI_Stop(TIMER timer);
 
-/*******************************************************************************
-* Functionprototypes EXT
-*******************************************************************************/
+/******************************************************************
+ * PURPOSE: Ändert einen Timer zwischen periodisch und einmalig.
+ * IN: timer - ID des Timers.
+ * IN: mode - TIMI_PERIODIC oder TIMI_ONESHOT.
+ * POST: Der Betriebsmodus des Timers ist dauerhaft geändert.
+ ******************************************************************/
+EXT VOID TIMI_SetMode(TIMER timer, TIMERMODE mode);
 
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Init(VOID);
-/* @END.Htrans
- *  IN
- *  PRE     has not been called before
- *  POST    all internal data structures are initialised; all timers are free
- *  RETURN
- *  INFO    should be called once only during startup
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Ändert die Verzögerung eines Timers.
+ * IN: timer - ID des Timers.
+ * IN: delay - Neue Verzögerung in Coconut-Ticks.
+ * POST: Die Verzögerung ist geändert; ein aktiver Timer wurde neu gestartet.
+ ******************************************************************/
+EXT VOID TIMI_SetDelay(TIMER timer, TIMERDELAY delay);
 
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Activate(VOID);
-/* @END.Htrans
- *  IN
- *  PRE     has not been called before && TIMI_Init() has been called
- *  POST    timer services are active
- *  RETURN
- *  INFO    has to be called once after TIMI_Init()
- @END**********************************************************************/
+/******************************************************************
+ * PURPOSE: Prüft, ob ein Timer aktiv oder bereits abgelaufen ist.
+ * IN: timer - ID des zu prüfenden Timers.
+ * OUT: TRUE bei aktivem oder abgelaufenem Timer, sonst FALSE.
+ ******************************************************************/
+EXT BOOL TIMI_IsTimer(TIMER timer);
 
+/******************************************************************
+ * PURPOSE: Liest und konsumiert das Ablaufereignis eines Timers.
+ * IN: timer - ID des abzufragenden Timers.
+ * OUT: TRUE, wenn der Timer abgelaufen war, andernfalls FALSE.
+ * POST: Das Ablauf-Flag des Timers ist gelöscht.
+ ******************************************************************/
+EXT BOOL TIMI_Event(TIMER timer);
 
-EXT TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d);
+/******************************************************************
+ * PURPOSE: Verarbeitet gesammelte Ticks und fällige Software-Timer.
+ * POST: Timerstände, Delta-Liste und Empfänger-Tasks sind aktualisiert.
+ ******************************************************************/
+EXT VOID TIMI_TaskFunction(VOID);
 
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Connect(TIMER t, TASK u);
-/* @END.Htrans
- *  IN
- *  PRE     TRUE
- *  POST    NORMAL: timer (t) is connected to task (u)
- *          FAIL:   a system reset is forced if timer (t) or task (u)
- *                  are not valid or timer (t) is already connected to a task
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Disconnect(TIMER t, TASK u);
-/* @END.Htrans
- *  IN
- *  PRE     TRUE
- *  POST    if timer (t) is connected to task (u) then
- *          timer (t) is disconnected from task (u)
- *  RETURN
- *  INFO    NOT USED
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Start(TIMER t);
-/* @END.Htrans
- *  IN
- *  PRE     TRUE
- *  POST    timer (t) is started or restarted if it was already started
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_Stop(TIMER t);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST    timer (t) is stopped; the event flag of timer (t) is cleared
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_SetMode(TIMER t, TIMERMODE m);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST    mode of timer (t) set according to timermode (m)
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT VOID  TIMI_SetDelay(TIMER t, TIMERDELAY d);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST    timer delay of timer (t) set accourding to timer delay (d)
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/*********************************************************** @obs   @Hobs */
-EXT BOOL  TIMI_IsTimer(TIMER t);
-/* @END.Hobs
- *  IN
- *  PRE
- *  POST
- *  RETURN  TRUE if timer (t) is running or has elapsed
- *  INFO
- @END**********************************************************************/
-
-/********************************************************* @trans @Htrans */
-EXT BOOL  TIMI_Event(TIMER t);
-/* @END.Htrans
- *  IN
- *  PRE
- *  POST    the elapsed information of timer (t) is cleared
- *  RETURN  TRUE if timer (t) has elapsed
- *  INFO
- @END**********************************************************************/
-
-
-/********************************************************* @taskf @Htaskf */
-EXT VOID  TIMI_TaskFunction(VOID); /* direct called from scheduler */
-/* @END.Htaskf
- *  IN
- *  PRE
- *  POST    expired one_shot timers:    are removed from the timer queue
- *          expired periodic timers:    are requeued
- *          FOR ALL expired timers:     their state is set to elapsed and
- *                                      their associated tasks are signalled
- *  RETURN
- *  INFO
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
-#define DEF_TIME    ((TIMERDELAY)(1))
-/* @END.Hadt
- *  INFO
- *  ACCESS
- @END**********************************************************************/
-
-#undef   EXT
-#undef   CONST
+#undef EXT
 #endif
-/* be sure to have the last preprocessor command on a seperate line */

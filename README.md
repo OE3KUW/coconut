@@ -60,9 +60,9 @@ timer expiry handling and task execution happen in the main loop.
 
 - `src/` contains the application entry point (`main.c`).
 - `coconut/` contains the CCN kernel sources and their module headers. The
-  PlatformIO build compiles every `.c` file in this folder. The legacy BPCI
-  entry point is disabled with `CCN_NO_MAIN`, leaving `src/main.c` as the
-  firmware entry point.
+  PlatformIO build compiles every `.c` file in this folder. The firmware has
+  one entry point in `src/main.c`; the obsolete BPCI entry point has been
+  removed.
 - `include/` contains the public CCN header and all interface headers ending
   in `_if.h`, plus shared compatibility headers for the legacy modules and
   the serial interface.

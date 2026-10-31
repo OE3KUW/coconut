@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -9,9 +9,8 @@
 ******************************************************************/
 #define   MOD_TIMI
 
-#include "coco_types.h"
+#include "types.h"
 #include "cnf.h"
-#include "legacy_macros.h"
 #include "erri_if.h"
 
 #include "bpci_if.h"
@@ -23,10 +22,9 @@
 #include "dckb_if.h"
 #endif
 
-/*
+/******************************************************************
  * Initialisation
- *
- */
+ ******************************************************************/
 VOID TIMI_Init(VOID)
 {
 /*    TIMI_HW_INTENABLE = TIMI_HW_RUN = 0;      cho*/
@@ -43,9 +41,9 @@ VOID TIMI_Init(VOID)
     TIM_PREV(tail)  = head;
 }
 
-/*
+/******************************************************************
  * Activate the timer service
- */
+ ******************************************************************/
 VOID TIMI_Activate(VOID)
 {
 /*    TIMI_HW_REG_HIGH = (TIMI_TIMER_TIME >> 8);  cho*/
@@ -56,9 +54,9 @@ VOID TIMI_Activate(VOID)
 /*    TIMI_HW_INTENABLE = TIMI_HW_RUN = 1;        cho*/
 }
 
-/*
+/******************************************************************
  * Creation
- */
+ ******************************************************************/
 TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d)
 {
     if(nr_timers >= CNF_MAX_NR_TIMERS)
@@ -81,9 +79,9 @@ TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d)
     return nr_timers;
 }
 
-/*
+/******************************************************************
  * Connection
- */
+ ******************************************************************/
 VOID TIMI_Connect(TIMER t, TASK u)
 {
     if(t > nr_timers || u > nr_tasks || t == ZERO || u == ZERO)
@@ -101,9 +99,9 @@ VOID TIMI_Disconnect(TIMER t, TASK u)
 }
 #endif
 
-/*
+/******************************************************************
  * Activation
- */
+ ******************************************************************/
 VOID TIMI_Start(TIMER t)
 {
     if(t > nr_timers || t == ZERO)
@@ -128,9 +126,9 @@ VOID TIMI_Stop(TIMER t)
     ClearBitInByte(TIM_FLAGS( t ), B_ELAPSED);
 }
 
-/*
+/******************************************************************
  * IsTimer running or has it elapsed
- */
+ ******************************************************************/
 BOOL TIMI_IsTimer(TIMER t)
 {
     if(t > nr_timers || t == ZERO)
@@ -142,9 +140,9 @@ BOOL TIMI_IsTimer(TIMER t)
     return FALSE;
 }
 
-/*
+/******************************************************************
  * Timerevent
- */
+ ******************************************************************/
 BOOL TIMI_Event(TIMER t)
 {
     if(t > nr_timers || t == ZERO)
@@ -181,9 +179,9 @@ VOID TIMI_SetDelay( TIMER t, TIMERDELAY d)
         TIMI_Start( t );    /* restart it                    */
 }
 
-/*
+/******************************************************************
  * Timertask (direct called from scheduler)
- */
+ ******************************************************************/
 VOID TIMI_TaskFunction(VOID)
 {
     register TIMER t;
@@ -244,9 +242,9 @@ VOID TIMI_TaskFunction(VOID)
     }
 }
 
-/*
+/******************************************************************
  * Delta list operations
- */
+ ******************************************************************/
 static VOID __adecl remove_timer(TIMER t)
 {
     if (TIM_PREV(t))   /* if t is in the list */
@@ -306,7 +304,11 @@ static VOID __adecl add_timer(TIMER t, TIMERDELAY offset)
  {
     static BIT do_wake_up = ZERO;
 
-    data union { UINT y; UCHAR y1[2]; } tu;
+    data union
+    {
+        UINT y;
+        UCHAR y1[2];
+    } tu;
 
     // correct the interrupt latency
 

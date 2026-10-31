@@ -1,5 +1,5 @@
 /******************************************************************
-1995 - 2026
+1995 - 2027
 
 
                           < o < o n u t
@@ -22,6 +22,7 @@ void ERRI_vErrorHandler(ERRI_Error error, uint8_t location, const void *context)
 void ERRI_SoftwareReset(void)
 {
     cli();
-    for (;;) {
+    for (;;)
+    {
     }
 }
