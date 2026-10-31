@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifndef  MOD_H_IF_BPCI
 #define  MOD_H_IF_BPCI
 
@@ -85,13 +91,6 @@ typedef UCHAR        FLAG;               /* flag type                     */
  @END**********************************************************************/
 
 /*********************************************************** @adt   @Hadt */
-typedef const char * STRING;            /* pointer to c-string           */
-/* @END.Hadt
- *  INFO    data type for strings
- *  ACCESS
- @END**********************************************************************/
-
-/*********************************************************** @adt   @Hadt */
 typedef VOID (* PPV)(VOID );             /* void  para  procedure pointer */
 /* @END.Hadt
  *  INFO    data type for void paraeter procedure pointer
@@ -100,9 +99,6 @@ typedef VOID (* PPV)(VOID );             /* void  para  procedure pointer */
 
 struct TCBlock                           /* task control block      (8) 6 */
 {
-#ifdef CNF_ASSERTING
-    STRING              name;            /* name of the task           (2)*/
-#endif
     PPV                 action;          /* void (* action)(void)       2 */
     TASK_PRIORITY       priority;        /* priority of the task        1 */
     FLAG                flag;            /* awake                       1 */
@@ -195,14 +191,10 @@ EXT   TASK   __tiny   nr_tasks;          /* number of tasks      */
 
 
 /*******************************************************************************
-* Internal access macros (located here because ASSERTS only !)
+* Internal access macros
 *******************************************************************************/
 
 #define BPC_T_FIELD( x, f )   ( bpc_t_base[(x)-1].f )
-
-#ifdef CNF_ASSERTING
-#define BPC_T_NAME( x )       BPC_T_FIELD( x, name )
-#endif
 
 #define BPC_T_ACTION( x )     BPC_T_FIELD( x, action )
 #define BPC_T_PRIORITY( x )   BPC_T_FIELD( x, priority )
@@ -222,20 +214,15 @@ EXT   TASK   __tiny   nr_tasks;          /* number of tasks      */
  @END**********************************************************************/
 
 
-#ifdef CNF_ASSERTING
 /********************************************************* @trans @Htrans */
-#define BPCI_CreateTask(s,c,p,n)    mBPCI_CreateTask(s,c,n)
+#define BPCI_CreateTask(c,n)    mBPCI_CreateTask(c,n)
 /* @END.Htrans
- *  IN      STRING s, PPV c, PROCESS p, TASK_PRIORITY n
+ *  IN      PPV c, TASK_PRIORITY n
  *  PRE
  *  POST
  *  RETURN
  *  INFO
  @END**********************************************************************/
-
-#else
-#define BPCI_CreateTask(s,c,p,n)    mBPCI_CreateTask(c,n)
-#endif
 
 /*******************************************************************************
 * Functionprototypes EXT
@@ -252,11 +239,7 @@ VOID BPCI_Init(VOID);
  @END**********************************************************************/
 
 
-#ifdef CNF_ASSERTING
-EXT TASK    mBPCI_CreateTask(STRING s, PPV c, TASK_PRIORITY n);
-#else
 EXT TASK    mBPCI_CreateTask(PPV c, TASK_PRIORITY n);
-#endif
 
 /********************************************************* @trans @Htrans */
 EXT VOID BPCI_WakeUpTask(TASK t);

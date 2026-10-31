@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifdef  MOD_MBXI
 #ifndef  MOD_H_MBXI
 #define  MOD_H_MBXI
@@ -20,9 +26,6 @@
 
 struct MCBlock          /* mailbox control blocks */
 {
-#ifdef CNF_ASSERTING
-    STRING  name;       /* name of the mailbox                    */
-#endif
     QUEUE   rq;         /* receiver message queue                 */
     TASK    task;       /* receiver task connected to the mailbox */
 };
@@ -39,10 +42,6 @@ static MAILBOX __tiny nr_mailboxes;   /* number of mailboxes */
 *******************************************************************************/
 
 #define MBX_FIELD( x, f )   ( mbx_base[(x)-1].f )
-
-#ifdef CNF_ASSERTING
-#define MBX_NAME( x )       MBX_FIELD( x, name )
-#endif
 
 #define MBX_RQ( x )         MBX_FIELD( x, rq )
 #define MBX_TASK( x )       MBX_FIELD( x, task )

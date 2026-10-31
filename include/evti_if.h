@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifndef  MOD_H_IF_EVTI
 #define  MOD_H_IF_EVTI
 
@@ -51,21 +57,15 @@ typedef UCHAR   EVENT;
 * Macros
 *******************************************************************************/
 
-#ifdef CNF_ASSERTING
 /********************************************************* @trans @Htrans */
-#define EVTI_Create(s,p)    mEVTI_Create(s)
+#define EVTI_Create()    mEVTI_Create()
 /* @END.Htrans
- *  IN      STRING s:   name of the event
- *          PROCESS p:  owner process of the event
+ *  IN      none
  *  PRE
  *  POST    the control block of the event is initialised
  *  RETURN  ((EVENT)(EventId)) <> NULL_EVT if creation was a success
  *  INFO
  @END**********************************************************************/
-
-#else
-#define EVTI_Create(s,p)    mEVTI_Create()
-#endif
 
 /*******************************************************************************
 * Functionprototypes EXT
@@ -82,11 +82,7 @@ EXT VOID    EVTI_Init(VOID);
  @END**********************************************************************/
 
 
-#ifdef CNF_ASSERTING
-EXT EVENT   mEVTI_Create(STRING s);
-#else
 EXT EVENT   mEVTI_Create(VOID);
-#endif
 
 /********************************************************* @trans @Htrans */
 EXT VOID    EVTI_Connect(EVENT e, TASK t);

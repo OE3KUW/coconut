@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifdef  MOD_EVTI
 #ifndef  MOD_H_EVTI
 #define  MOD_H_EVTI
@@ -20,9 +26,6 @@
 
 struct ECBlock          /* event control blocks */
 {
-#ifdef CNF_ASSERTING
-    STRING  name;       /* name of the event                     */
-#endif
     FLAG    pending;    /* event flag                            */
     TASK    task;       /* receiver task connected to the event  */
 };
@@ -39,10 +42,6 @@ static EVENT  __tiny nr_events;   /* number of events */
 *******************************************************************************/
 
 #define EVT_FIELD( x, f )   ( evt_base[(x)-1].f )
-
-#ifdef CNF_ASSERTING
-#define EVT_NAME( x )       EVT_FIELD( x, name )
-#endif
 
 #define EVT_PENDING( x )    EVT_FIELD( x, pending )
 #define EVT_TASK( x )       EVT_FIELD( x, task )

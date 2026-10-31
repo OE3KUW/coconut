@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
  #ifndef MOD_CNF
  #define MOD_CNF
 
@@ -18,13 +24,5 @@
  #define ON  1
 
  #define MSEC / 8
-
- #define CNF_ASSERTING
-
- #ifdef CNF_ASSERTING
- #define ASSERT(cond) do { if (!(cond)) __builtin_trap(); } while (0)
- #else
- #define ASSERT(cond) do { (void)sizeof(cond); } while (0)
- #endif
 
  #endif

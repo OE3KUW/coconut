@@ -1,3 +1,12 @@
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifndef COCO_TYPES_H
 #define COCO_TYPES_H
 
@@ -10,7 +19,6 @@ typedef uint8_t BIT;
 typedef uint8_t UCHAR;
 typedef uint16_t UINT;
 typedef uint32_t ULONG;
-typedef const char *STRING;
 typedef VOID (*PPV)(VOID);
 
 #define TRUE true

@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #define   MOD_MBXI
 
 #include "coco_types.h"
@@ -22,8 +28,6 @@
 
 VOID MBXI_Init(VOID)
 {
-    ASSERT(!BPCI_IsStarted());
-
     nr_mailboxes = 0;
 }
 
@@ -31,25 +35,12 @@ VOID MBXI_Init(VOID)
  * Creation
  */
 
-#ifdef CNF_ASSERTING
-MAILBOX mMBXI_Create(STRING s)
-#else
 MAILBOX mMBXI_Create(VOID)
-#endif
 {
-    ASSERT(!BPCI_IsStarted());
-    ASSERT(nr_mailboxes < CNF_MAX_NR_MAILBOXES);
-
-#ifndef PCV
     if(nr_mailboxes >= CNF_MAX_NR_MAILBOXES)
 		ERRI_vErrorHandler(ERR_NO_MORE_MAILBOXES, MBXI_LOCATION_4, NULL);
-#endif
 
     ++nr_mailboxes;
-
-#ifdef CNF_ASSERTING
-    MBX_NAME( nr_mailboxes )  = s;
-#endif
 
     MBX_RQ( nr_mailboxes )    = ZERO;
     MBX_TASK( nr_mailboxes )  = ZERO;
@@ -63,14 +54,8 @@ MAILBOX mMBXI_Create(VOID)
 
 VOID MBXI_Connect(MAILBOX m, TASK t)
 {
-  #ifdef PCV
-    ASSERT(!(MBX_TASK(m) != ZERO || t > nr_tasks || t == ZERO || m > nr_mailboxes || m == ZERO));
-  #else
     if(MBX_TASK(m) != ZERO || t > nr_tasks || t == ZERO || m > nr_mailboxes || m == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_MBX_CONNECT, MBXI_LOCATION_1, NULL);
-  #endif
-
-    ASSERT(MBX_TASK(m) == ZERO);
 
     MBX_TASK(m) = t;
 }
@@ -90,14 +75,8 @@ VOID MBXI_Disconnect(MAILBOX m, TASK t)
 
 BOOL MBXI_Send(MAILBOX m, MAIL x)
 {
-  #ifdef PCV
-    ASSERT(!(MBX_TASK(m) == ZERO || m > nr_mailboxes || m == ZERO));
-  #else
     if(MBX_TASK(m) == ZERO || m > nr_mailboxes || m == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_MBX_SEND, MBXI_LOCATION_2, NULL);
-  #endif
-
-    ASSERT(MBX_TASK(m) != ZERO);
 
     if (QUEI_Put(&MBX_RQ(m), x ))
     {
@@ -118,12 +97,8 @@ UCHAR MBXI_Count(MAILBOX m)
 
 BOOL MBXI_Receive(MAILBOX m, MAIL * x)
 {
-  #ifdef PCV
-    ASSERT(!(MBX_TASK(m) == ZERO || m > nr_mailboxes || m == ZERO));
-  #else
     if(MBX_TASK(m) == ZERO || m > nr_mailboxes || m == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_MBX_RECEIVE, MBXI_LOCATION_3, NULL);
-  #endif
 
     if (MBX_RQ(m))
     {

@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    Ò›uran Wolfgang
+******************************************************************/
 #ifdef  MOD_TIMI
 #ifndef  MOD_H_TIMI
 #define  MOD_H_TIMI
@@ -21,19 +27,16 @@
 
 struct TimerControlBlock   /* timer control blocks */
 {
-#ifdef CNF_ASSERTING
-    STRING      name;      /* name of the timer                  */
-#endif
     UCHAR       flags;     /* type, mode, status, event,...      */
 
 /* usage of flags
-ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
-³ BIT ³ MEANING          ³ ON          ³ OFF             ³
-ÃÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-³  0  ³ TIMERMODE        ³ PERIODIC    ³ ONESHOT         ³
-ÃÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-³  1  ³ TIMEREVENTFLAG   ³ ELAPSED     ³ NOT ELAPSED     ³
-ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
++-----+--------------------+-------------+-----------------+
+| BIT | MEANING            | ON          | OFF             |
++-----+--------------------+-------------+-----------------+
+|  0  | TIMERMODE          | PERIODIC    | ONESHOT         |
++-----+--------------------+-------------+-----------------+
+|  1  | TIMEREVENTFLAG     | ELAPSED     | NOT ELAPSED     |
++-----+--------------------+-------------+-----------------+
 */
     TASK        task;     /* receiver task    */
     TIMERDELAY  delay;    /* timer delay value                            */
@@ -62,10 +65,6 @@ static TIMER __tiny  tail;   /* dummy timer used as tail of delta list */
 
 #define TIM_FIELD(x, f) (tim_base[(x)-1].f)
 
-#ifdef CNF_ASSERTING
-#define TIM_NAME( x )   TIM_FIELD( x, name )
-#endif
-
 #define TIM_FLAGS( x )  TIM_FIELD( x, flags )
 #define TIM_TASK( x )   TIM_FIELD( x, task )
 #define TIM_DELAY( x )  TIM_FIELD( x, delay )
@@ -80,7 +79,7 @@ static TIMER __tiny  tail;   /* dummy timer used as tail of delta list */
 * Functionprototypes    STATIC
 *******************************************************************************/
 
-#if (COCO_TIMER_IN_C == ON) || defined(PCV)
+#if (COCO_TIMER_IN_C == ON)
     static VOID ProcessTimer(VOID);        /* called by Timer_handler()      */
 #endif
 

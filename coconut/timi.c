@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #define   MOD_TIMI
 
 #include "coco_types.h"
@@ -14,48 +20,7 @@
 #include "timi.h"
 
 #if (COCO_TIMER_IN_C == ON)
-#ifndef PCV
 #include "dckb_if.h"
-#endif
-#endif
-
-#ifdef PCV
-
-                    #include "stdlib.h"
-                    #include "dos.h"
-                    #include "conio.h"
-
-    #ifdef __cplusplus
-        #define __CPPARGS ...
-    #else
-        #define __CPPARGS VOID
-    #endif
-
-    #ifdef interrupt
-    #undef interrupt
-    #endif
-
-    #define TIMER_TICK  0x1c
-
-    static VOID interrupt ( *OldTimerHandler)(__CPPARGS);
-    static VOID interrupt Timer_Handler(__CPPARGS);
-
-    extern VOID RestoreTimerHandler(VOID)
-    {
-        extern  struct text_info BPCI_ti;
-// timerinterrupt every 18,2 ms
-        outport(0x43, 0x34);
-        outport(0x40, 0xff);
-        outport(0x40, 0xff);
-
-        setvect(TIMER_TICK, OldTimerHandler);
-        OldTimerHandler = ZERO;
-
-        textmode(BPCI_ti.currmode);
-    }
-static volatile UCHAR TIMI_CountFor18ms;
-    #define interrupt
-
 #endif
 
 /*
@@ -64,11 +29,7 @@ static volatile UCHAR TIMI_CountFor18ms;
  */
 VOID TIMI_Init(VOID)
 {
-    ASSERT(!BPCI_IsStarted());
-
-#ifndef PCV
 /*    TIMI_HW_INTENABLE = TIMI_HW_RUN = 0;      cho*/
-#endif
 
     elapsed_ticks   = 0;
     nr_timers       = 2;
@@ -87,41 +48,21 @@ VOID TIMI_Init(VOID)
  */
 VOID TIMI_Activate(VOID)
 {
-#ifndef PCV
 /*    TIMI_HW_REG_HIGH = (TIMI_TIMER_TIME >> 8);  cho*/
 /*    TIMI_HW_REG_LOW  = TIMI_TIMER_TIME & 255;   cho*/
 
 /*    TIMI_SET_MODE();                            cho*/
 
 /*    TIMI_HW_INTENABLE = TIMI_HW_RUN = 1;        cho*/
-#else
-    OldTimerHandler = getvect(TIMER_TICK);
-    setvect(TIMER_TICK, Timer_Handler);
-// timerinterrupt about every 8 ms (18,2ms/6)
-    outport(0x43, 0x34);
-    outport(0x40, 0xAA);
-    outport(0x40, 0x2A);
-    TIMI_CountFor18ms=6;
-    atexit(RestoreTimerHandler);
-#endif
 }
 
 /*
  * Creation
  */
-#ifdef CNF_ASSERTING
-TIMER mTIMI_CreateWakeUpTimer(STRING s, TIMERMODE m, TIMERDELAY d)
-#else
 TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d)
-#endif
 {
-    ASSERT(!BPCI_IsStarted());
-    ASSERT(nr_timers < CNF_MAX_NR_TIMERS);
-
-#ifndef PCV
     if(nr_timers >= CNF_MAX_NR_TIMERS)
 		ERRI_vErrorHandler(ERR_NO_MORE_TIMERS, TIMI_LOCATION_7, NULL);
-#endif
 
     ++nr_timers;
 
@@ -130,9 +71,6 @@ TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d)
     if (m == TIMI_PERIODIC)
         SetBit(TIM_FLAGS(nr_timers), (UCHAR)B_PERIODIC);  /* if periodic */
 
-#ifdef CNF_ASSERTING
-    TIM_NAME(nr_timers)    = s;
-#endif
     TIM_DELAY(nr_timers)   = d;
 
     TIM_TASK(nr_timers)    = ZERO;
@@ -148,14 +86,8 @@ TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d)
  */
 VOID TIMI_Connect(TIMER t, TASK u)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || u > nr_tasks || t == ZERO || u == ZERO));
-  #else
     if(t > nr_timers || u > nr_tasks || t == ZERO || u == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_CONNECT, TIMI_LOCATION_1, NULL);
-  #endif
-
-    ASSERT(TIM_TASK(t) == (TASK)ZERO);     /* timer not occupied ? */
 
     ClearBitInByte(TIM_FLAGS(t), B_ELAPSED); /* default = not elapsed */
     TIM_TASK(t) = u;
@@ -174,12 +106,8 @@ VOID TIMI_Disconnect(TIMER t, TASK u)
  */
 VOID TIMI_Start(TIMER t)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_START, TIMI_LOCATION_2, NULL);
-  #endif
 
     if (TIM_PREV( t ))        /* if timer is still in the delta lst */
         remove_timer( t );  /* remove it from the delta list      */
@@ -192,12 +120,8 @@ VOID TIMI_Start(TIMER t)
 
 VOID TIMI_Stop(TIMER t)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_STOP, TIMI_LOCATION_3, NULL);
- #endif
 
     remove_timer( t );            /* remove the timer from the delta list */
 
@@ -209,12 +133,8 @@ VOID TIMI_Stop(TIMER t)
  */
 BOOL TIMI_IsTimer(TIMER t)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_EVENT, TIMI_LOCATION_4, NULL);
-  #endif
 
     if (TIM_PREV(t) || GetBit(TIM_FLAGS(t), B_ELAPSED))
         return TRUE;
@@ -227,12 +147,8 @@ BOOL TIMI_IsTimer(TIMER t)
  */
 BOOL TIMI_Event(TIMER t)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_EVENT, TIMI_LOCATION_4, NULL);
-  #endif
 
     if ( GetBit(TIM_FLAGS(t), B_ELAPSED) )
     {
@@ -245,12 +161,8 @@ BOOL TIMI_Event(TIMER t)
 #if (0) // uncalled
 VOID TIMI_SetMode(TIMER t, TIMERMODE m)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_MODE, TIMI_LOCATION_5, NULL);
-  #endif
 
     if (m == TIMI_PERIODIC)
         SetBit(TIM_FLAGS(t), B_PERIODIC);  /* periodic */
@@ -261,12 +173,8 @@ VOID TIMI_SetMode(TIMER t, TIMERMODE m)
 
 VOID TIMI_SetDelay( TIMER t, TIMERDELAY d)
 {
-  #ifdef PCV
-    ASSERT(!(t > nr_timers || t == ZERO));
-  #else
     if(t > nr_timers || t == ZERO)
 		ERRI_vErrorHandler(ERR_INVAL_TIMER_DELAY, TIMI_LOCATION_6, NULL);
-  #endif
 
     TIM_DELAY(t) = d;
     if (TIM_PREV(t))        /* if timer is in the delta list */
@@ -358,8 +266,6 @@ static VOID __adecl add_timer(TIMER t, TIMERDELAY offset)
     register TIMERDELAY d;
     USES_CRITICAL_SECTION;
 
-    ASSERT(TIM_PREV(t) == ZERO);
-
     ENTER_CRITICAL_SECTION;
 
     offset += elapsed_ticks;
@@ -367,8 +273,6 @@ static VOID __adecl add_timer(TIMER t, TIMERDELAY offset)
     LEAVE_CRITICAL_SECTION;
 
     d = TIM_DELAY(t);
-    ASSERT(d != ZERO);
-
     if ((CNF_MAX_TIMERDELAY - offset) > d)
         d += offset;
     else
@@ -387,36 +291,19 @@ static VOID __adecl add_timer(TIMER t, TIMERDELAY offset)
         TIM_DELTA(u) -= d;
 }
 
-#ifndef PCV
-    #if (COCO_TIMER_IN_C == ON)
+#if (COCO_TIMER_IN_C == ON)
         /* TIMER 0 Interrupt Handler USES REGISTERBANK 1 */
         // located in the common code-area (keep it as small as possible)
         static VOID Timer_Handler(VOID) interrupt TIMI_INTERRUPT_NR using 1
         {
             ProcessTimer(); /* reduce commonarea  */
         }
-    #endif
-#else
-    #ifdef interrupt
-        #undef interrupt
-    #endif
-        static VOID interrupt Timer_Handler(__CPPARGS)
-        {
-            ProcessTimer();
-            if ( !(--TIMI_CountFor18ms))
-            {
-                 (*OldTimerHandler)();
-                 TIMI_CountFor18ms=7;
-            }
-        }
-    #define interrupt
 #endif
 
-#if (COCO_TIMER_IN_C == ON) || defined(PCV)
+#if (COCO_TIMER_IN_C == ON)
  // this function will be located in a separate bank of the code-memory
  static VOID ProcessTimer(VOID)
  {
-  #ifndef PCV
     static BIT do_wake_up = ZERO;
 
     data union { UINT y; UCHAR y1[2]; } tu;
@@ -432,11 +319,8 @@ static VOID __adecl add_timer(TIMER t, TIMERDELAY offset)
     TIMI_HW_RUN      = 1;              // start the timer again
 
     if (do_wake_up = !do_wake_up)
-  #endif
         elapsed_ticks++;
 
-  #ifndef PCV
     DCKB_DeckAction(); // Tapedeck Communication Interrupt Call (Send+Receive)
-  #endif
  }
 #endif

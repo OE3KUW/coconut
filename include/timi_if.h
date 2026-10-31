@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #ifndef  MOD_H_IF_TIMI
 #define  MOD_H_IF_TIMI
 
@@ -88,20 +94,15 @@ EXT    UCHAR  __tiny  elapsed_ticks; /* incemented by interrupt handler */
 * Macros
 *******************************************************************************/
 
-#ifdef CNF_ASSERTING
 /********************************************************* @trans @Htrans */
-#define TIMI_CreateWakeUpTimer(s,p,m,d) mTIMI_CreateWakeUpTimer(s,m,d)
+#define TIMI_CreateWakeUpTimer(m,d) mTIMI_CreateWakeUpTimer(m,d)
 /* @END.Htrans
- *  IN      STRING s, PROCESS p, TIMERMODE m, TIMERDELAY d
+ *  IN      TIMERMODE m, TIMERDELAY d
  *  PRE
  *  POST
  *  RETURN  ((TIMER)(Value)) <> NULL_TMR if creation was a success
  *  INFO
  @END**********************************************************************/
-
-#else
-#define TIMI_CreateWakeUpTimer(s,p,m,d) mTIMI_CreateWakeUpTimer(m,d)
-#endif
 
 /*******************************************************************************
 * Functionprototypes EXT
@@ -128,11 +129,7 @@ EXT VOID  TIMI_Activate(VOID);
  @END**********************************************************************/
 
 
-#ifdef CNF_ASSERTING
-    EXT TIMER mTIMI_CreateWakeUpTimer(STRING s,TIMERMODE m,TIMERDELAY d);
-#else
-    EXT TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m,TIMERDELAY d);
-#endif
+EXT TIMER mTIMI_CreateWakeUpTimer(TIMERMODE m, TIMERDELAY d);
 
 /********************************************************* @trans @Htrans */
 EXT VOID  TIMI_Connect(TIMER t, TASK u);

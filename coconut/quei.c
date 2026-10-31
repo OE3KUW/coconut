@@ -1,6 +1,12 @@
-/************************************************************************************
-                                  <o<onut
-************************************************************************************/
+/******************************************************************
+1995 - 2026
+
+
+                          < o < o n u t
+
+
+                                                    қuran Wolfgang
+******************************************************************/
 #define   MOD_QUEI
 
 #include "coco_types.h"
@@ -19,8 +25,6 @@
 VOID QUEI_Init(VOID)
 {
     register QUEUE u;
-
-    ASSERT(!BPCI_IsStarted());
 
     q_free = ZERO;
 
@@ -63,12 +67,8 @@ VOID QUEI_Get(QUEUE * q, QOBJECT * x)
 {
     register QUEUE u;
 
-  #ifdef PCV
-    ASSERT(*q != ZERO);
-  #else
     if(*q == ZERO || *q > ((QUEUE) CNF_MAX_NR_QUEUE_CELLS))
         ERRI_SoftwareReset();   // system is not longer stable
-  #endif
 
     u = QUE_TAIL(*q);
 
