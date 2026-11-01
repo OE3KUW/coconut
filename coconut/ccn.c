@@ -9,6 +9,16 @@
                                                                      Paul Schenk
                                                                   қuran Wolfgang
 *******************************************************************************/
+/*
+ * COPYRIGHT AND LICENSING STATUS
+ *
+ * This module may contain historical PAOLINA/Philips material.
+ * The ownership and licensing status of that material has not yet been
+ * fully clarified. Public availability does not constitute an express
+ * open-source licence.
+ *
+ * For provenance, attribution and reuse information, see RIGHTS.md.
+ */
 #include "ccn.h"
 
 #include <avr/interrupt.h>

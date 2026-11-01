@@ -77,3 +77,10 @@ The documentation is available in [German](./coconut_doc_de.docx) and
 [English](./coconut_doc_en.docx). It covers the scheduler, events, mailboxes,
 timers, serial commands, UML sequence diagrams, flowcharts, and API appendices.
 Editable UML sources in both languages are in `docs/uml/`.
+
+## Rights and provenance
+
+The copyright and licensing status of the historical material is described in
+[RIGHTS.md](./RIGHTS.md). The independent ATmega328P port, its relationship to
+the retained historical modules and its educational purpose are described in
+[LEFTS.md](./LEFTS.md).
