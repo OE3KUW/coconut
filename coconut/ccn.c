@@ -8,20 +8,20 @@
                                                                     Hans Jonkers
                                                                      Paul Schenk
                                                                   қuran Wolfgang
+********************************************************************************
+  COPYRIGHT AND LICENSING STATUS
+
+  This module may contain historical PAOLINA/Philips material.
+  The ownership and licensing status of that material has not yet been
+  fully clarified. Public availability does not constitute an express
+  open-source licence.
+
+  Further information is provided in the repository root:
+
+  RIGHTS.md - copyright, attribution and reuse information
+  LEFTS.md  - origin, independent port and educational purpose
+
 *******************************************************************************/
-/*
- * COPYRIGHT AND LICENSING STATUS
- *
- * This module may contain historical PAOLINA/Philips material.
- * The ownership and licensing status of that material has not yet been
- * fully clarified. Public availability does not constitute an express
- * open-source licence.
- *
- * Further information is provided in the repository root:
- *
- *   RIGHTS.md - copyright, attribution and reuse information
- *   LEFTS.md  - origin, independent port and educational purpose
- */
 #include "ccn.h"
 
 #include <avr/interrupt.h>
