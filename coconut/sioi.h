@@ -2,9 +2,7 @@
 1995 - 2027
 
 
-                                 𝘊 o 𝘊 o n u t
-
-                             CoConut for Education
+                      𝘊 o 𝘊 o n u t   4  𝙴 d u c a t i o n
 
                                                                   қuran Wolfgang
 *******************************************************************************/

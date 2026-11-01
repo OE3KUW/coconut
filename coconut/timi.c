@@ -2,9 +2,7 @@
 1995 - 2027
 
 
-                                 𝘊 o 𝘊 o n u t
-
-                             CoConut for Education
+                      𝘊 o 𝘊 o n u t   4  𝙴 d u c a t i o n
 
                                                                      Paul Schenk
                                                                   қuran Wolfgang
@@ -194,7 +192,7 @@ VOID TIMI_TaskFunction(VOID)
 
     // get the elapsed realtime ticks since the last execution
     // of this taskfunction. due to the cooperative behaviour
-    // of 𝘊o𝘊onut's tasks it may happen that we've missed
+    // of CoConut's tasks it may happen that we've missed
     // some ticks, so let's run our timers faster in this case.
 
     ENTER_CRITICAL_SECTION;

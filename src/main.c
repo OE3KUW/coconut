@@ -2,9 +2,7 @@
 1995 - 2027
 
 
-                                 𝘊 o 𝘊 o n u t
-
-                             CoConut for Education
+                      𝘊 o 𝘊 o n u t   4  𝙴 d u c a t i o n
 
                                                                   қuran Wolfgang
 *******************************************************************************/
@@ -208,7 +206,7 @@ int main(void)
         }
     }
     printf("- - - - - - - - - - - - - - - - - - - -\n");
-    printf("𝘊o𝘊onut started\n");
+    printf("𝘊 o 𝘊 o n u t   4  𝙴 d u c a t i o n started\n");
     printf("e=Event, m=Mailbox, w=WakeUp, t=3-s-Timer, p=1-s-Timer.\n");
     ccn_start();
 }
