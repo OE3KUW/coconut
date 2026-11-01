@@ -1,4 +1,4 @@
-# <o<onut (CCN) on Arduino Uno with PlatformIO
+# ᴄoᴄonut (CCN) on Arduino Uno with PlatformIO
 
 This project targets an Arduino Uno with an ATmega328P running at 16 MHz. It
 uses PlatformIO and AVR-GCC directly. It does not use the Arduino framework or
@@ -73,7 +73,7 @@ from both `src/` and `coconut/` can be selected. `build_src_filter` selects
 AVR and their module state is initialized in `main.c` in dependency order.
 The demo tasks and event handling use the newer `ccn_*` API.
 
-The documentation is available in [German](./cocnut_doku.docx) and
+The documentation is available in [German](./coconut_doc_de.docx) and
 [English](./coconut_doc_en.docx). It covers the scheduler, events, mailboxes,
 timers, serial commands, UML sequence diagrams, flowcharts, and API appendices.
 Editable UML sources in both languages are in `docs/uml/`.

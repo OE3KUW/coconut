@@ -1,12 +1,13 @@
-/******************************************************************
+/*******************************************************************************
 1995 - 2027
 
 
-                          < o < o n u t
+                                 ᴄ o ᴄ o n u t
 
 
-                                                    қuran Wolfgang
-******************************************************************/
+                                                                     Paul Schenk
+                                                                  қuran Wolfgang
+*******************************************************************************/
 #define   MOD_TIMI
 
 #include "types.h"
@@ -192,7 +193,7 @@ VOID TIMI_TaskFunction(VOID)
 
     // get the elapsed realtime ticks since the last execution
     // of this taskfunction. due to the cooperative behaviour
-    // of <o<onut's tasks it may happen that we've missed
+    // of ᴄoᴄonut's tasks it may happen that we've missed
     // some ticks, so let's run our timers faster in this case.
 
     ENTER_CRITICAL_SECTION;
