@@ -2,7 +2,7 @@
 1995 - 2027
 
 
-                                 ᴄ o ᴄ o n u t
+                                 ƈ o ƈ o n u t
 
 
                                                                      Paul Schenk
@@ -193,7 +193,7 @@ VOID TIMI_TaskFunction(VOID)
 
     // get the elapsed realtime ticks since the last execution
     // of this taskfunction. due to the cooperative behaviour
-    // of ᴄoᴄonut's tasks it may happen that we've missed
+    // of ƈoƈonut's tasks it may happen that we've missed
     // some ticks, so let's run our timers faster in this case.
 
     ENTER_CRITICAL_SECTION;

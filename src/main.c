@@ -2,7 +2,7 @@
 1995 - 2027
 
 
-                                 ᴄ o ᴄ o n u t
+                                 ƈ o ƈ o n u t
 
 
                                                                   қuran Wolfgang
@@ -207,7 +207,7 @@ int main(void)
         }
     }
     printf("- - - - - - - - - - - - - - - - - - - -\n");
-    printf("ᴄoᴄonut started\n");
+    printf("ƈoƈonut started\n");
     printf("e=Event, m=Mailbox, w=WakeUp, t=3-s-Timer, p=1-s-Timer.\n");
     ccn_start();
 }

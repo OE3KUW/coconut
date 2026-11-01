@@ -2,7 +2,7 @@
 1995 - 2027
 
 
-                                 ᴄ o ᴄ o n u t
+                                 ƈ o ƈ o n u t
 
 
                                                                     Hans Jonkers
