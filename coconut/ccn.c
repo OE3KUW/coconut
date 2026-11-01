@@ -4,10 +4,11 @@
 
                                  𝘊 o 𝘊 o n u t
 
+                             CoConut for Education
 
-                                          Original developer: Hans B. M. Jonkers
-                                            Original CoConut author: Paul Schenk
-                         ATmega328P port for technical education: қuran Wolfgang
+                                       Historical foundation: Hans B. M. Jonkers
+                                       PAOLINA port and integration: Paul Schenk
+                                     ATmega328P educational port: қuran Wolfgang
 ********************************************************************************
   COPYRIGHT AND LICENSING STATUS
 
