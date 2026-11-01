@@ -1,4 +1,4 @@
-# 𝒞o𝒞onut (CCN) on Arduino Uno with PlatformIO
+# 𝘊o𝘊onut (CCN) on Arduino Uno with PlatformIO
 
 This project targets an Arduino Uno with an ATmega328P running at 16 MHz. It
 uses PlatformIO and AVR-GCC directly. It does not use the Arduino framework or

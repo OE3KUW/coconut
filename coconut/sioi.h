@@ -2,7 +2,7 @@
 1995 - 2027
 
 
-                                 𝒞 o 𝒞 o n u t
+                                 𝘊 o 𝘊 o n u t
 
 
                                                                   қuran Wolfgang
