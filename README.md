@@ -73,6 +73,7 @@ from both `src/` and `coconut/` can be selected. `build_src_filter` selects
 AVR and their module state is initialized in `main.c` in dependency order.
 The demo tasks and event handling use the newer `ccn_*` API.
 
-See [cocnut_doku.docx](./cocnut_doku.docx) for the scheduler,
-events, mailboxes, timers, serial commands, UML sequence diagrams, flowcharts,
-and API appendices. Editable UML sources are in `docs/uml/`.
+The documentation is available in [German](./cocnut_doku.docx) and
+[English](./coconut_doc_en.docx). It covers the scheduler, events, mailboxes,
+timers, serial commands, UML sequence diagrams, flowcharts, and API appendices.
+Editable UML sources in both languages are in `docs/uml/`.
