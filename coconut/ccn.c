@@ -5,9 +5,9 @@
                                  𝘊 o 𝘊 o n u t
 
 
-                                                                    Hans Jonkers
-                                                                     Paul Schenk
-                                                                  қuran Wolfgang
+                                          Original developer: Hans B. M. Jonkers
+                                            Original CoConut author: Paul Schenk
+                         ATmega328P port for technical education: қuran Wolfgang
 ********************************************************************************
   COPYRIGHT AND LICENSING STATUS
 
