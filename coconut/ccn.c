@@ -17,7 +17,10 @@
  * fully clarified. Public availability does not constitute an express
  * open-source licence.
  *
- * For provenance, attribution and reuse information, see RIGHTS.md.
+ * Further information is provided in the repository root:
+ *
+ *   RIGHTS.md - copyright, attribution and reuse information
+ *   LEFTS.md  - origin, independent port and educational purpose
  */
 #include "ccn.h"
 
