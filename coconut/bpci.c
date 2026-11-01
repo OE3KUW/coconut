@@ -2,7 +2,7 @@
 1995 - 2027
 
 
-                                 ƈ o ƈ o n u t
+                                 𝒞 o 𝒞 o n u t
 
 
                                                                      Paul Schenk
